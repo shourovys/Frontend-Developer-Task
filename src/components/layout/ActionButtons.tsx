@@ -1,14 +1,14 @@
 import { cn } from '@/lib/utils';
+import { IActionsButton } from '@/types/actionButtons';
 import Icon from '@/utils/icons';
 import Button from '../atomic/Button';
-import { IActionsButton } from './Breadcrumbs';
 
 interface IProps {
   actionButtons: IActionsButton[];
 }
 function ActionButtons({ actionButtons }: IProps) {
   return (
-    <div className='flex gap-x-2 lg:gap-x-2 '>
+    <div className='flex gap-x-2.5 '>
       {actionButtons.map((button) => (
         <Button
           color={button.color || 'primary'}

@@ -38,7 +38,7 @@ function Button({
       }`,
 
     color === 'outline' &&
-      `border border-input bg-btnOutlineBg text-btnOutlineText ${
+      `border border-buttonBorder bg-btnOutlineBg text-btnOutlineText ${
         !disabled && 'hover:bg-btnOutlineText hover:text-btnOutlineBg'
       }`,
 

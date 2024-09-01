@@ -1,27 +1,5 @@
-import { TIcon } from '@/utils/icons';
-import { TButtonColor, TButtonSize } from '../atomic/Button';
+import { IActionsButton } from '@/types/actionButtons';
 import ActionButtons from './ActionButtons';
-
-interface IActionButtonBase {
-  color?: TButtonColor;
-  icon?: TIcon;
-  text: string;
-  iconClass?: string;
-  isLoading?: boolean;
-  size?: TButtonSize;
-  disabled?: boolean;
-}
-
-export interface IActionsButtonWithOnClick extends IActionButtonBase {
-  link?: never;
-  onClick: (event: React.MouseEvent<HTMLButtonElement>) => void;
-}
-
-export interface IActionsButtonWithLink extends IActionButtonBase {
-  link: string;
-  onClick?: never;
-}
-export type IActionsButton = IActionsButtonWithOnClick | IActionsButtonWithLink;
 
 interface IBreadcrumbsProps {
   pageTitle?: string;

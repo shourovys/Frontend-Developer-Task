@@ -8,12 +8,14 @@
     /* --text: #667085; */
 
     --primary: #2166f0;
+    --primaryLight: #f3f8ff;
     --btnPrimaryText: #fff;
 
     --btnOutlineBg: #fff;
     --btnOutlineText: #05060f99;
 
-    --input-border: #e6e6e7;
+    --button-border: ;
+    --box-border: #eaecf0;
   }
 }
 

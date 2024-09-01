@@ -11,15 +11,16 @@ const config: Config = {
       colors: {
         background: 'var(--background)',
         primary: 'var(--primary)',
+        primaryLight: 'var(--primaryLight)',
         btnPrimaryText: 'var(--btnPrimaryText)',
 
         btnOutlineBg: 'var(--btnOutlineBg)',
         btnOutlineText: 'var(--btnOutlineText)',
 
-        input: 'var(--input-border)',
+        primaryBorder: 'var(--box-border)',
       },
-      borderColor: {
-        input: 'var(--input-border)',
+      boxShadow: {
+        table: '0px 3px 10px 0px #7777771A',
       },
     },
   },
