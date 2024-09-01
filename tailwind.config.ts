@@ -10,7 +10,16 @@ const config: Config = {
     extend: {
       colors: {
         background: 'var(--background)',
-        // text: 'var(--text)',
+        primary: 'var(--primary)',
+        btnPrimaryText: 'var(--btnPrimaryText)',
+
+        btnOutlineBg: 'var(--btnOutlineBg)',
+        btnOutlineText: 'var(--btnOutlineText)',
+
+        input: 'var(--input-border)',
+      },
+      borderColor: {
+        input: 'var(--input-border)',
       },
     },
   },

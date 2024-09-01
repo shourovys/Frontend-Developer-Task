@@ -6,6 +6,14 @@
   :root {
     --background: #f2f5fa;
     /* --text: #667085; */
+
+    --primary: #2166f0;
+    --btnPrimaryText: #fff;
+
+    --btnOutlineBg: #fff;
+    --btnOutlineText: #05060f99;
+
+    --input-border: #e6e6e7;
   }
 }
 
