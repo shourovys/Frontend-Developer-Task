@@ -1,4 +1,4 @@
-import { IActionsButton } from '@/types/actionButtons';
+import { IActionsButton } from '@/types/components/actionButtons';
 import ActionButtons from './ActionButtons';
 
 interface IBreadcrumbsProps {

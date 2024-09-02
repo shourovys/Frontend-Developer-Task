@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { IActionsButton } from '@/types/actionButtons';
+import { IActionsButton } from '@/types/components/actionButtons';
 import Icon from '@/utils/icons';
 import Button from '../atomic/Button';
 
