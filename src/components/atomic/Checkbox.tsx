@@ -27,7 +27,7 @@ function Checkbox({
         onChange={(e) => onChange(e.target.checked)}
         type='checkbox'
         className={cn(
-          'form-control block h-4 p-1 aspect-square text-sm font-normal accent-primary bg-white bg-clip-padding border border-solid border-gray-300 rounded-md transition ease-in-out m-0 focus:text-gray-700 focus:bg-white  focus:outline-none disabled:bg-[#F0F1F3] disabled:text-gray-600',
+          'form-control block h-4 p-1 aspect-square text-sm font-normal accent-primary bg-[#F9FAFB] border border-[#AFBACA] rounded transition ease-in-out m-0 focus:outline-none disabled:bg-[#F0F1F3] disabled:text-gray-600',
           !disabled && 'cursor-pointer'
         )}
         disabled={disabled}
@@ -36,7 +36,7 @@ function Checkbox({
         <label
           htmlFor={value}
           className={cn(
-            'inline-block w-full text-sm text-gray-700 form-label',
+            'inline-block w-full text-sm text-[#05060F99] form-label',
             labelClassName
           )}
         >

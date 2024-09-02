@@ -33,7 +33,7 @@ function Button({
     size === 'icon' && 'h-10 w-10',
 
     color === 'primary' &&
-      `bg-primary text-btnPrimaryText hover:bg-primary/90 ${
+      `border border-primary bg-primary text-btnPrimaryText hover:bg-primary/90 ${
         !disabled && 'hover:bg-btnPrimaryText hover:text-primary'
       }`,
 

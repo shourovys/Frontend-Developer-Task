@@ -1,6 +1,7 @@
 import { cn } from '@/lib/utils';
-import Icon, { filterIcon, searchIcon } from '@/utils/icons';
+import Icon, { searchIcon } from '@/utils/icons';
 import React, { useState } from 'react';
+import OrderTableFilter from './OrderTableFilter';
 
 interface ITabButtonProps {
   title: string;
@@ -108,10 +109,7 @@ const OrderTableToolbar: React.FC = () => {
         </div>
 
         {/* Filters button */}
-        <button className='flex items-center text-[#05060F99] border border-primaryBorder py-2 px-3 rounded-md gap-1.5 transition-colors hover:bg-slate-50 focus:outline-none'>
-          <Icon icon={filterIcon} className='w-3.5 h-3.5' aria-hidden='true' />
-          <span className='text-sm font-medium'>Filters</span>
-        </button>
+        <OrderTableFilter />
       </div>
     </div>
   );
