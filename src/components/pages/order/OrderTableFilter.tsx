@@ -18,7 +18,7 @@ import Icon, { closeIcon, filterIcon } from '@/utils/icons';
 const OrderTableFilter = () => {
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger className='flex items-center text-[#05060F99] border border-primaryBorder py-2 px-3 rounded-md transition-colors hover:bg-slate-50 focus:outline-none'>
+      <DropdownMenuTrigger className='flex items-center text-[#05060F99] border border-primaryBorder py-1.5 px-3 rounded-md transition-colors hover:bg-slate-50 focus:outline-none'>
         <button>
           <Icon
             icon={filterIcon}
