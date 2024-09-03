@@ -6,7 +6,7 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from '@/components/common/accordion';
+} from '@/components/common/Accordion';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -42,7 +42,7 @@ const OrderTableFilter = () => {
             className='text-[#858D9D] absolute right-2.5 top-2.5 text-lg cursor-pointer p-1.5 hover:text-slate-900'
           />
         </div>
-        <DropdownMenuGroup className='space-y-3.5 max-h-[22rem] 2xl:max-h-[28rem] overflow-y-auto'>
+        <DropdownMenuGroup className='space-y-3.5 max-h-[18rem] 2xl:max-h-[28rem] overflow-y-auto'>
           <Accordion type='single' collapsible>
             <AccordionItem value='Date Created'>
               <AccordionTrigger>Date Created</AccordionTrigger>

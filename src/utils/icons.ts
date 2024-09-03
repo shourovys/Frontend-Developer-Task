@@ -1,5 +1,7 @@
 import {
   faArrowDownLong,
+  faArrowLeftLong,
+  faArrowRightLong,
   faArrowRightToBracket,
   faArrowUpLong,
   faCalendarAlt,
@@ -28,6 +30,9 @@ export const threeDotsIcon = faEllipsis;
 export const plusIcon = faPlus;
 export const downChevronIcon = faChevronDown;
 export const closeIcon = faXmark;
+
+export const rightArrowIcon = faArrowRightLong; // right angle for access form
+export const leftArrowIcon = faArrowLeftLong; // for mobile dropdown menu
 
 export const downArrowIcon = faArrowDownLong; // for table header sort desc
 export const upArrowIcon = faArrowUpLong; // for table header sort asc

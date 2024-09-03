@@ -5,6 +5,7 @@ import TableBodyLoading from '@/components/loading/TableBodyLoading';
 import OrderTableInfo from '@/components/pages/order/OrderTableInfo';
 import AccessTableRow from '@/components/pages/order/OrderTableRow';
 import OrderTableToolbar from '@/components/pages/order/OrderTableToolbar';
+import Pagination from '@/components/table/pagination/Pagination';
 import Table from '@/components/table/Table';
 import TableHeader from '@/components/table/TableHeader';
 import TableNoData from '@/components/table/TableNoData';
@@ -429,6 +430,15 @@ export default function Home() {
         <TableBodyLoading isLoading={isLoading} tableRowPerPage={rowsPerPage} />
         <TableNoData isNotFound={isNotFound} />
       </div>
+      <Pagination
+        totalRows={110}
+        // totalRows={data?.length || 0}
+        currentPage={page}
+        rowsPerPage={rowsPerPage}
+        currentPath={location.pathname}
+        onPageChange={handleChangePage}
+        onRowsPerPageChange={handleChangeRowsPerPage}
+      />
     </div>
   );
 }

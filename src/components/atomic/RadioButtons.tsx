@@ -56,8 +56,8 @@ function RadioButtons({
             />
             <span
               className={cn(
-                'inline-block form-check-label text-[#05060F99]',
-                !disabled && ' text-gray-600'
+                'inline-block form-check-label text-gray-600',
+                !disabled && ' text-[#05060F99]'
               )}
             >
               {label}

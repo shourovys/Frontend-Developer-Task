@@ -1,7 +1,4 @@
-export interface ISelectOption {
-  value: string;
-  label: string;
-}
+import { ISelectOption } from '../components/common';
 
 export interface IAccessResult {
   AccessNo: number; // Primary Key
