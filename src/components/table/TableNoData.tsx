@@ -14,10 +14,7 @@ export default function TableNoData({
 }: IProps) {
   if (isNotFound) {
     return (
-      <div
-        className='flex'
-        style={{ height: tableRowPerPage * tableRowHeight }}
-      >
+      <div className='flex' style={{ height: 5 * tableRowHeight }}>
         <EmptyContent title='No Data Found!' />
       </div>
     );

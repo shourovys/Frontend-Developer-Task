@@ -15,7 +15,7 @@ type IProps = {
   handleSelectRow: (_selectedId: string) => void;
 };
 
-function AccessTableRow({ row, selected, handleSelectRow }: IProps) {
+function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
   // Copy text to clipboard
@@ -126,4 +126,4 @@ function AccessTableRow({ row, selected, handleSelectRow }: IProps) {
   );
 }
 
-export default AccessTableRow;
+export default OrderTableRow;

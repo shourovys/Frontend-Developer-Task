@@ -5,7 +5,6 @@ import Select from 'react-tailwindcss-select';
 interface IProps {
   totalRows: number;
   rowsPerPage: number;
-  currentPath: string;
   onRowsPerPageChange?: (_rowsPerPage: number) => void;
   disabled?: boolean;
 }
@@ -13,7 +12,6 @@ interface IProps {
 const RowsPerPageSelector = ({
   totalRows,
   rowsPerPage,
-  currentPath,
   onRowsPerPageChange,
   disabled,
 }: IProps) => {

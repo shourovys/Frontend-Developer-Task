@@ -13,7 +13,6 @@ function TableBodyLoading({
   isLoading,
   tableRowPerPage = TABLE_ROW_PER_PAGE,
   tableRowHeight = TABLE_ROW_HEIGHT,
-  sideBorder = true,
 }: IProps) {
   if (!isLoading) {
     return null;
@@ -23,8 +22,7 @@ function TableBodyLoading({
       {createArray(tableRowPerPage).map((item) => (
         <div
           className={cn(
-            'w-full border-t-2 border-white loading',
-            sideBorder && 'border-l-4 border-r-4'
+            'w-full border-t border-white animate-pulse bg-primaryBorder'
           )}
           style={{ height: tableRowHeight }}
           key={item}

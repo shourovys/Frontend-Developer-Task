@@ -13,28 +13,90 @@ import {
   DropdownMenuGroup,
   DropdownMenuTrigger,
 } from '@/components/common/Dropdown';
+import { THandleFilterInputChange } from '@/types/components/common';
+import { IOrderFilter } from '@/types/pages/order';
 import Icon, { closeIcon, filterIcon } from '@/utils/icons';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
-const OrderTableFilter = () => {
+interface IProps {
+  filterState: IOrderFilter;
+  handleFilterStateReset: () => void;
+  setFilterState: Dispatch<SetStateAction<IOrderFilter>>;
+}
+
+const OrderTableFilter: React.FC<IProps> = ({
+  filterState,
+  handleFilterStateReset,
+  setFilterState,
+}) => {
+  const [filter, setFilter] = useState<{
+    date: string;
+    status: string[];
+    paymentStatus: string[];
+  }>({
+    date: filterState.date ? '' : 'all',
+    status: filterState.status,
+    paymentStatus: filterState.paymentStatus,
+  });
+
+  useEffect(() => {
+    setFilter((state) => ({
+      ...state,
+      date: filterState.date ? filterState.date : 'all',
+      status: filterState.status,
+      paymentStatus: filterState.paymentStatus,
+    }));
+  }, [filterState]);
+
+  const statusFilter = {
+    Processing: false,
+    Shipped: false,
+    Delivered: false,
+    Cancelled: false,
+  };
+  const paymentFilter = {
+    Paid: false,
+    Unpaid: false,
+    Refunded: false,
+    Inprogress: false,
+    Cancelled: false,
+  };
+
+  const handleFilterInputChange: THandleFilterInputChange = (name, value) => {
+    // apply will false in every filter state change
+    setFilter((state) => ({ ...state, apply: false, [name]: value }));
+  };
+
+  // Apply filters action
+  const applyFilters = () => {
+    setFilterState((state) => ({
+      ...state,
+      date: filter.date,
+      status: filter.status,
+      paymentStatus: filter.paymentStatus,
+    }));
+  };
+
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className='flex items-center text-[#05060F99] border border-primaryBorder py-1.5 px-3 rounded-md transition-colors hover:bg-slate-50 focus:outline-none'>
-        <button>
+        <span>
           <Icon
             icon={filterIcon}
             className='w-3.5 h-3.5 mr-1.5'
             aria-hidden='true'
           />
           <span className='text-sm font-medium'>Filters</span>
-        </button>
+        </span>
       </DropdownMenuTrigger>
 
       <DropdownMenuContent className='space-y-3.5' align='end'>
         <div className='space-x-2'>
-          <span className='font-medium text-[#333843]'>
-            Filters your orders
-          </span>
-          <span className='text-sm text-[#05060F99] underline cursor-pointer'>
+          <span className='font-medium text-[#333843]'>Filter your orders</span>
+          <span
+            className='text-sm text-[#05060F99] underline cursor-pointer'
+            onClick={handleFilterStateReset}
+          >
             Reset
           </span>
           <Icon
@@ -48,36 +110,17 @@ const OrderTableFilter = () => {
               <AccordionTrigger>Date Created</AccordionTrigger>
               <AccordionContent>
                 <RadioButtons
-                  name='radio'
-                  // inputlabel='Input Label'
-                  checked={'all'}
+                  name='date'
+                  checked={filter.date}
                   radios={[
-                    {
-                      label: 'All',
-                      value: 'all',
-                    },
-                    {
-                      label: 'Last Week',
-                      value: 'lastWeek',
-                    },
-                    {
-                      label: 'Last Month',
-                      value: 'lastMonth',
-                    },
-                    {
-                      label: 'Last 3 Month',
-                      value: 'last3Month',
-                    },
-                    {
-                      label: 'Last Year',
-                      value: 'lastYear',
-                    },
-                    {
-                      label: 'Custom Date',
-                      value: 'customDate',
-                    },
+                    { label: 'All', value: 'all' },
+                    { label: 'Last Week', value: 'lastWeek' },
+                    { label: 'Last Month', value: 'lastMonth' },
+                    { label: 'Last 3 Month', value: 'last3Month' },
+                    { label: 'Last Year', value: 'lastYear' },
+                    { label: 'Custom Date', value: 'customDate' },
                   ]}
-                  onChange={() => {}}
+                  onChange={handleFilterInputChange}
                 />
               </AccordionContent>
             </AccordionItem>
@@ -86,53 +129,54 @@ const OrderTableFilter = () => {
             <AccordionItem value='Status'>
               <AccordionTrigger>Status</AccordionTrigger>
               <AccordionContent className='space-y-3'>
-                <Checkbox
-                  label='Processing'
-                  value='processing'
-                  onChange={() => {}}
-                />
-                <Checkbox label='Shipped' value='Shipped' onChange={() => {}} />
-                <Checkbox
-                  label='Delivered'
-                  value='Delivered'
-                  onChange={() => {}}
-                />
-                <Checkbox
-                  label='Cancelled'
-                  value='Cancelled'
-                  onChange={() => {}}
-                />
+                {Object.keys(statusFilter).map((status) => (
+                  <Checkbox
+                    key={status}
+                    label={status}
+                    value={status}
+                    checked={filter.status.includes(status)}
+                    onChange={(value) =>
+                      handleFilterInputChange(
+                        'status',
+                        filter.status.includes(status) && !value
+                          ? filter.status.filter((item) => item !== status)
+                          : [...filter.status, status]
+                      )
+                    }
+                  />
+                ))}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
           <Accordion type='single' collapsible>
-            <AccordionItem value='DateCreated'>
+            <AccordionItem value='Payment Status'>
               <AccordionTrigger>Payment Status</AccordionTrigger>
               <AccordionContent className='space-y-3'>
-                <Checkbox label='Paid' value='paid' onChange={() => {}} />
-                <Checkbox label='Unpaid' value='unpaid' onChange={() => {}} />
-                <Checkbox
-                  label='Refunded'
-                  value='refunded'
-                  onChange={() => {}}
-                />
-                <Checkbox
-                  label='In Progress'
-                  value='inProgress'
-                  onChange={() => {}}
-                />
-                <Checkbox
-                  label='Canceled'
-                  value='canceled'
-                  onChange={() => {}}
-                />
+                {Object.keys(paymentFilter).map((payment) => (
+                  <Checkbox
+                    key={payment}
+                    label={payment}
+                    value={payment}
+                    checked={filter.paymentStatus.includes(payment)}
+                    onChange={(value) =>
+                      handleFilterInputChange(
+                        'paymentStatus',
+                        filter.paymentStatus.includes(payment) && !value
+                          ? filter.paymentStatus.filter(
+                              (item) => item !== payment
+                            )
+                          : [...filter.paymentStatus, payment]
+                      )
+                    }
+                  />
+                ))}
               </AccordionContent>
             </AccordionItem>
           </Accordion>
         </DropdownMenuGroup>
         <DropdownMenuGroup className='flex justify-end gap-4 py-1'>
           <Button color='outline'>Cancel</Button>
-          <Button>Apply Filter</Button>
+          <Button onClick={applyFilters}>Apply Filter</Button>
         </DropdownMenuGroup>
       </DropdownMenuContent>
     </DropdownMenu>

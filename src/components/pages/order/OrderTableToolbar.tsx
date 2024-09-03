@@ -1,11 +1,14 @@
+import useDebounce from '@/hooks/useDebounce';
 import { cn } from '@/lib/utils';
+import { THandleFilterInputChange } from '@/types/components/common';
+import { IOrderFilter, IOrderResponse } from '@/types/pages/order';
 import Icon, { searchIcon } from '@/utils/icons';
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import OrderTableFilter from './OrderTableFilter';
 
 interface ITabButtonProps {
   title: string;
-  count: number;
+  count?: number;
   isActive: boolean;
   onClick: () => void;
 }
@@ -34,39 +37,54 @@ const TabButton: React.FC<ITabButtonProps> = ({
       >
         {title}
       </p>
-      <span
-        className={cn(
-          'font-bold text-xs rounded p-1',
-          isActive ? 'bg-primary text-white' : 'bg-primaryLight text-primary'
-        )}
-      >
-        {count}
-      </span>
+      {count && (
+        <span
+          className={cn(
+            'font-bold text-xs rounded p-1',
+            isActive ? 'bg-primary text-white' : 'bg-primaryLight text-primary'
+          )}
+        >
+          {count}
+        </span>
+      )}
     </button>
   );
 };
 
 TabButton.displayName = 'TabButton';
 
-const OrderTableToolbar: React.FC = () => {
-  const [activeTab, setActiveTab] = useState<string>('All orders');
+interface IProps {
+  data?: IOrderResponse;
+  filterState: IOrderFilter;
+  handleFilterStateReset: () => void;
+  handleFilterInputChange: THandleFilterInputChange;
+  setFilterState: Dispatch<SetStateAction<IOrderFilter>>;
+}
+
+const OrderTableToolbar: React.FC<IProps> = ({
+  data,
+  filterState,
+  handleFilterStateReset,
+  handleFilterInputChange,
+  setFilterState,
+}) => {
   const [searchQuery, setSearchQuery] = useState<string>('');
+  const debouncedSearchQuery = useDebounce<string>(searchQuery, 500);
+
+  useEffect(() => {
+    handleFilterInputChange('search', debouncedSearchQuery);
+  }, [debouncedSearchQuery]);
 
   // Tabs data
   const tabs = [
-    { title: 'All orders', count: 320 },
-    { title: 'Processing', count: 320 },
-    { title: 'Confirmed', count: 34 },
-    { title: 'Shipping', count: 320 },
-    { title: 'Delivered', count: 76 },
-    { title: 'Return', count: 7 },
-    { title: 'Cancel', count: 44 },
+    { id: 'All', title: 'All orders', count: data?.count },
+    { id: 'Processing', title: 'Processing', count: data?.Processing },
+    { id: 'Confirmed', title: 'Confirmed', count: data?.Confirmed },
+    { id: 'Shipped', title: 'Shipping', count: data?.Shipped },
+    { id: 'Delivered', title: 'Delivered', count: data?.Delivered },
+    { id: 'Return', title: 'Return', count: data?.Return },
+    { id: 'Cancelled', title: 'Cancel', count: data?.Cancelled },
   ];
-
-  // Handle tab click
-  const handleTabClick = (title: string) => {
-    setActiveTab(title);
-  };
 
   // Handle search input change
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,8 +98,8 @@ const OrderTableToolbar: React.FC = () => {
         key={tab.title}
         title={tab.title}
         count={tab.count}
-        isActive={activeTab === tab.title}
-        onClick={() => handleTabClick(tab.title)}
+        isActive={filterState.status.includes(tab.id)}
+        onClick={() => handleFilterInputChange('status', [tab.id])}
       />
     ));
 
@@ -109,7 +127,11 @@ const OrderTableToolbar: React.FC = () => {
         </div>
 
         {/* Filters button */}
-        <OrderTableFilter />
+        <OrderTableFilter
+          filterState={filterState}
+          handleFilterStateReset={handleFilterStateReset}
+          setFilterState={setFilterState}
+        />
       </div>
     </div>
   );

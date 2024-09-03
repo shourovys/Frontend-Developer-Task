@@ -1,6 +1,6 @@
 import { TABLE_ROW_PER_PAGE } from '@/utils/config';
 import { usePathname, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 interface IProps {
   // data: object[];
@@ -45,52 +45,6 @@ const useTable = (props: IProps) => {
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
   const [selected, setSelected] = useState(defaultSelected);
   const [dense, setDense] = useState(false);
-
-  // useEffect(() => {
-  //   if (defaultOrderBy && !searchParams.get('orderBy')) {
-  //     updateRouteQueryWithReplace({
-  //       query: {
-  //         orderBy: defaultOrderBy,
-  //         order,
-  //       },
-  //       pathName: pathname,
-  //     });
-  //   }
-  // }, [location.search, pathname]);
-
-  useEffect(() => {
-    // console.log(
-    //   location && pathname + location.search && location.search !== pathname
-    // )
-    if (
-      location &&
-      pathname + location.search &&
-      location.search !== pathname
-    ) {
-      const queryPage = searchParams.get('page') as string;
-      setPage(queryPage && !Number.isNaN(+queryPage) ? +queryPage : 1);
-
-      const queryRowPerPage = searchParams.get('rowsPerPage') as string;
-      setRowsPerPage(
-        queryRowPerPage && !Number.isNaN(+queryRowPerPage)
-          ? +queryRowPerPage
-          : defaultRowsPerPage
-      );
-
-      const orderByValue = searchParams.get('orderBy');
-      setOrderBy(typeof orderByValue === 'string' ? orderByValue : '');
-
-      const queryOrder = searchParams.get('order') as 'asc' | 'desc';
-      const orderValue = (
-        queryOrder === 'asc' || queryOrder === 'desc'
-          ? searchParams.get('order')
-          : 'desc'
-      ) as 'asc' | 'desc';
-      if (orderValue !== null) {
-        setOrder(orderValue);
-      }
-    }
-  }, [location]);
 
   const handleSort = (_orderBy: string, _order: 'asc' | 'desc') => {
     setOrderBy(_orderBy);

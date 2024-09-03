@@ -1,3 +1,14 @@
+export interface IOrderResponse {
+  count: number;
+  Processing: number;
+  Confirmed: number;
+  Shipped: number;
+  Delivered: number;
+  Return: number;
+  Cancelled: number;
+  orders: IOrder[];
+}
+
 export interface IOrder {
   _id: {
     $oid: string;
@@ -78,4 +89,25 @@ interface IDeliveryDetails {
   deliveryCost: number;
   deliveryTrackingLink: string;
   deliveryTrackingId: string;
+}
+
+export interface IOrderFilter {
+  id: string;
+  search: string;
+  status: string[];
+  paymentStatus: string[];
+  date: string;
+}
+
+export interface IApiQueryParamsBase {
+  offset: number;
+  limit: number;
+  sort_by: string;
+  order: 'asc' | 'desc';
+}
+export interface IOrderApiQueryParams extends IApiQueryParamsBase {
+  id?: string;
+  status?: string[];
+  paymentStatus?: string[];
+  date?: string;
 }

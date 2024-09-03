@@ -10,7 +10,6 @@ interface IPaginationProps {
   totalRows: number;
   currentPage: number;
   rowsPerPage: number;
-  currentPath: string;
   onPageChange: (_page: number) => void;
   onRowsPerPageChange?: (_rowsPerPage: number) => void;
   rowsPerPageDisabled?: boolean;
@@ -20,7 +19,6 @@ export default function Pagination({
   totalRows,
   currentPage,
   rowsPerPage,
-  currentPath,
   onPageChange,
   onRowsPerPageChange,
   rowsPerPageDisabled,
@@ -71,7 +69,7 @@ export default function Pagination({
       : totalRows;
 
   return (
-    <div className='flex items-center justify-between p-5 pb-1 sm:px-6 text-sm font-medium'>
+    <div className='flex items-center justify-between p-5 mb-5 pb-1 sm:px-6 text-sm font-medium'>
       <div className='flex justify-between flex-1 sm:hidden'>
         <PaginationPrevNextControls
           onClick={handlePrevNextPaginate}
@@ -146,7 +144,6 @@ export default function Pagination({
           <RowsPerPageSelector
             totalRows={totalRows}
             rowsPerPage={rowsPerPage}
-            currentPath={currentPath}
             onRowsPerPageChange={onRowsPerPageChange}
             disabled={rowsPerPageDisabled}
           />
