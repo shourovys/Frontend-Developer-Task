@@ -2,6 +2,13 @@ import Checkbox from '@/components/atomic/Checkbox';
 import { cn } from '@/lib/utils';
 import { ITableHead } from '@/types/components/table';
 import Icon, { plusIcon } from '@/utils/icons';
+import {
+  Tooltip,
+  TooltipArrow,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '../common/Tooltip';
 
 interface IProps {
   order: 'asc' | 'desc';
@@ -81,7 +88,17 @@ function TableHeader({
         ))}
 
         <th scope='col' className='pr-5 w-[70px]'>
-          <Icon icon={plusIcon} className='text-[#05060F99] ' />
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger>
+                <Icon icon={plusIcon} className='text-[#05060F99] ' />
+              </TooltipTrigger>
+              <TooltipContent>
+                <p>Add field</p>
+                <TooltipArrow />
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
         </th>
       </tr>
     </thead>
