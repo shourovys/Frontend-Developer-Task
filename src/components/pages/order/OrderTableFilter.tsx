@@ -179,7 +179,7 @@ const OrderTableFilter: React.FC<IProps> = ({
               <AccordionContent className='space-y-3'>
                 {Object.keys(paymentFilter).map((payment) => (
                   <Checkbox
-                    key={payment}
+                    key={`payment-${payment}`}
                     label={payment}
                     value={payment}
                     checked={filter.paymentStatus.includes(payment)}

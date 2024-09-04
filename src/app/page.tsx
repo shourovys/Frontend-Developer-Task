@@ -149,7 +149,7 @@ export default function Home() {
             order={order}
             orderBy={orderBy}
             numSelected={selected.length}
-            rowCount={data?.count}
+            rowCount={data?.orders.length}
             handleSort={handleSort}
             handleOrder={handleOrder}
             selectAllRow={(isAllSelected: boolean) => {
