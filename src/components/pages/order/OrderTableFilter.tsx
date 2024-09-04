@@ -42,7 +42,8 @@ const OrderTableFilter: React.FC<IProps> = ({
   useEffect(() => {
     setFilter((state) => ({
       ...state,
-      date: filterState.date ? filterState.date : 'all',
+      date:
+        !filterState.customDate && !filterState.date ? 'all' : filterState.date,
       status: filterState.status,
       paymentStatus: filterState.paymentStatus,
     }));
@@ -69,12 +70,22 @@ const OrderTableFilter: React.FC<IProps> = ({
 
   // Apply filters action
   const applyFilters = () => {
-    setFilterState((state) => ({
-      ...state,
-      date: filter.date,
-      status: filter.status,
-      paymentStatus: filter.paymentStatus,
-    }));
+    if (filter.date) {
+      setFilterState((state) => ({
+        ...state,
+        date: filter.date,
+        customDate: '',
+        status: filter.status.filter((item) => item !== 'All'),
+        paymentStatus: filter.paymentStatus,
+      }));
+    } else {
+      setFilterState((state) => ({
+        ...state,
+        date: filter.date,
+        status: filter.status.filter((item) => item !== 'All'),
+        paymentStatus: filter.paymentStatus,
+      }));
+    }
   };
 
   return (
@@ -117,8 +128,8 @@ const OrderTableFilter: React.FC<IProps> = ({
                     { label: 'Last Week', value: 'lastWeek' },
                     { label: 'Last Month', value: 'lastMonth' },
                     { label: 'Last 3 Month', value: 'last3Month' },
+                    { label: 'This Year', value: 'thisYear' },
                     { label: 'Last Year', value: 'lastYear' },
-                    { label: 'Custom Date', value: 'customDate' },
                   ]}
                   onChange={handleFilterInputChange}
                 />

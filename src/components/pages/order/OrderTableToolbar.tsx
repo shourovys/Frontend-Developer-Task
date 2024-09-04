@@ -37,16 +37,14 @@ const TabButton: React.FC<ITabButtonProps> = ({
       >
         {title}
       </p>
-      {count && (
-        <span
-          className={cn(
-            'font-bold text-xs rounded p-1',
-            isActive ? 'bg-primary text-white' : 'bg-primaryLight text-primary'
-          )}
-        >
-          {count}
-        </span>
-      )}
+      <span
+        className={cn(
+          'font-bold text-xs rounded p-1',
+          isActive ? 'bg-primary text-white' : 'bg-primaryLight text-primary'
+        )}
+      >
+        {count || 0}
+      </span>
     </button>
   );
 };
@@ -77,7 +75,7 @@ const OrderTableToolbar: React.FC<IProps> = ({
 
   // Tabs data
   const tabs = [
-    { id: 'All', title: 'All orders', count: data?.count },
+    { id: 'All', title: 'All orders', count: data?.total },
     { id: 'Processing', title: 'Processing', count: data?.Processing },
     { id: 'Confirmed', title: 'Confirmed', count: data?.Confirmed },
     { id: 'Shipped', title: 'Shipping', count: data?.Shipped },
@@ -85,6 +83,20 @@ const OrderTableToolbar: React.FC<IProps> = ({
     { id: 'Return', title: 'Return', count: data?.Return },
     { id: 'Cancelled', title: 'Cancel', count: data?.Cancelled },
   ];
+
+  useEffect(() => {
+    setFilterState((state) => ({
+      ...state,
+      status: filterState.status.length ? filterState.status : ['All'],
+    }));
+
+    if (filterState.customDate) {
+      setFilterState((state) => ({
+        ...state,
+        date: '',
+      }));
+    }
+  }, [filterState.date, filterState.status, filterState.customDate]);
 
   // Handle search input change
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {

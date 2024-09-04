@@ -1,11 +1,18 @@
 export interface IOrderResponse {
   count: number;
+  total: number;
   Processing: number;
   Confirmed: number;
   Shipped: number;
   Delivered: number;
   Return: number;
   Cancelled: number;
+
+  totalRevenue: number;
+  orderItem: number;
+  returnItem: number;
+  fulfilledOrders: number;
+
   orders: IOrder[];
 }
 
@@ -97,6 +104,7 @@ export interface IOrderFilter {
   status: string[];
   paymentStatus: string[];
   date: string;
+  customDate: string;
 }
 
 export interface IApiQueryParamsBase {

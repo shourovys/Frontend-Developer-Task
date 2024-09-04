@@ -40,12 +40,13 @@ export default function Home() {
   } = useTable({ defaultOrderBy: 'date' });
 
   const TABLE_HEAD: ITableHead[] = [
-    { id: 'Id', label: 'Order Id', filter: true },
+    { id: '$oid', label: 'Order Id', filter: true },
     { id: 'date', label: 'Creating date', filter: true },
-    { id: 'Total', label: 'Total', filter: true },
-    { id: 'Quantity', label: 'Quantity', filter: true },
+    { id: 'customer', label: 'Customer Info', filter: false },
+    { id: 'grandTotal', label: 'Total', filter: true },
+    { id: 'Quantity', label: 'Quantity', filter: false },
     { id: 'Payment', label: 'Payment status', filter: true },
-    { id: 'Delivery', label: 'Delivery method', filter: true },
+    { id: 'Delivery', label: 'Delivery method', filter: false },
     { id: 'Status', label: 'Status', filter: true },
   ];
 
@@ -53,9 +54,10 @@ export default function Home() {
   const initialFilterState: IOrderFilter = {
     id: '',
     search: '',
-    status: ['all'],
+    status: ['All'],
     paymentStatus: [],
     date: '',
+    customDate: '',
   };
   // state to store the filter values
   const [filterState, setFilterState] = useState(initialFilterState);
@@ -69,7 +71,6 @@ export default function Home() {
   const handleFilterStateReset = () => {
     // on filter apply filterStateRef update to initial filter state
     setFilterState(initialFilterState);
-    // mutate(undefined, true)
   };
 
   // create the query object for the API call
@@ -92,6 +93,9 @@ export default function Home() {
     }),
     ...(filterState.date && {
       date: filterState.date,
+    }),
+    ...(filterState.customDate && {
+      customDate: filterState.customDate,
     }),
   };
 
@@ -128,7 +132,11 @@ export default function Home() {
       />
 
       <div className='bg-white rounded-xl border border-primaryBorder shadow-table'>
-        <OrderTableInfo />
+        <OrderTableInfo
+          data={data}
+          filterState={filterState}
+          handleFilterInputChange={handleFilterInputChange}
+        />
         <OrderTableToolbar
           data={data}
           filterState={filterState}

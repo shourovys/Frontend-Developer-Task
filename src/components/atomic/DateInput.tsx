@@ -1,54 +1,51 @@
-// import { cn } from '@/lib/utils';
-// import Datepicker from 'react-tailwindcss-datepicker';
-// import { DateValueType } from 'react-tailwindcss-datepicker/dist/types';
-// import { dateFormat } from '../../utils/formetTime';
+import { cn } from '@/lib/utils';
+import Datepicker from 'react-tailwindcss-datepicker';
+import {
+  DateType,
+  DateValueType,
+} from 'react-tailwindcss-datepicker/dist/types';
 
-// interface IProps {
-//   name: string;
-//   label?: string;
-//   value: {
-//     startDate: null | string;
-//     endDate: null | string;
-//   };
-//   placeholder?: string;
-//   singleDate?: boolean;
-//   onChange?: (name: string, value: DateValueType) => void;
-//   disabled?: boolean;
-//   format?: string;
-//   required?: boolean;
-// }
+interface IProps {
+  name: string;
+  value: string;
+  placeholder?: string;
+  onChange?: (name: string, value: DateType) => void;
+  disabled?: boolean;
+  format?: string;
+  required?: boolean;
+}
 
-// function DateInput({
-//   name,
-//   label = '',
-//   value,
-//   placeholder,
-//   singleDate = true,
-//   onChange,
-//   disabled = false,
-//   format,
-// }: IProps) {
-//   return (
-//     <Datepicker
-//       primaryColor='green'
-//       asSingle={singleDate}
-//       useRange={!singleDate}
-//       value={value}
-//       placeholder={placeholder}
-//       onChange={(newValue) => (onChange ? onChange(name, newValue) : null)}
-//       inputClassName={cn(
-//         'form-control w-full h-[30px] px-3 text-sm font-normal text-black bg-white bg-clip-padding border border-solid border-gray-300 focus:border-gray-300 dark:border-gray-300 rounded-md transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-primary focus:outline-none focus:ring-0',
-//         !disabled && label && 'shadow-all-side',
-//         disabled &&
-//           'important_disable_color important_disable_bg custom_opacity_100 custom_cursor_default'
-//       )}
-//       containerClassName={cn(
-//         disabled && 'important_disable_color important_disable_bg rounded-md '
-//       )}
-//       disabled={disabled}
-//       displayFormat={format ? format : dateFormat}
-//     />
-//   );
-// }
+function DateInput({
+  name,
+  value,
+  placeholder,
+  onChange,
+  disabled = false,
+  format,
+}: IProps) {
+  // Ensure value is correctly formatted as DateValueType
+  const formattedValue: DateValueType = {
+    startDate: value ? new Date(value) : null,
+    endDate: value ? new Date(value) : null,
+  };
 
-// export default DateInput;
+  return (
+    <Datepicker
+      inputId='datepicker'
+      primaryColor={'blue'}
+      asSingle={true}
+      useRange={false}
+      value={formattedValue}
+      placeholder={placeholder}
+      onChange={(newValue) =>
+        onChange && newValue ? onChange(name, newValue?.startDate) : null
+      }
+      inputClassName={cn('form-control outline-none text-[#667085] -mt-.5')}
+      toggleClassName='hidden'
+      disabled={disabled}
+      displayFormat={format ? format : 'DD-MM-YYYY'}
+    />
+  );
+}
+
+export default DateInput;

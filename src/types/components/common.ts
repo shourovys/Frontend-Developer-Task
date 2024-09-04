@@ -1,3 +1,5 @@
+import { DateType } from 'react-tailwindcss-datepicker';
+
 export interface IListServerResponse<T> {
   count: number;
   next: string | null;
@@ -7,7 +9,7 @@ export interface IListServerResponse<T> {
 
 export type THandleFilterInputChange = (
   name: string,
-  value: string | number | null | boolean | string[]
+  value: string | number | null | boolean | string[] | DateType
 ) => void;
 
 export interface ISelectOption {

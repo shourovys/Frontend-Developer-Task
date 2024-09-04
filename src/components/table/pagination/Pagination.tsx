@@ -62,8 +62,8 @@ export default function Pagination({
     onPageChange(clickedPage);
   };
 
-  const from = totalRows ? (currentPage - 1) * rowsPerPage + 1 : 0;
-  const to =
+  const to = totalRows ? (currentPage - 1) * rowsPerPage + 1 : 0;
+  const from =
     (currentPage - 1) * rowsPerPage + rowsPerPage < totalRows
       ? (currentPage - 1) * rowsPerPage + rowsPerPage
       : totalRows;
