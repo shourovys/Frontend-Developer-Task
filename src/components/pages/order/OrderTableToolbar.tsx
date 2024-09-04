@@ -1,9 +1,10 @@
+// OrderTableToolbar.tsx
 import TabButton from '@/components/common/TabButton';
 import useDebounce from '@/hooks/useDebounce';
 import { THandleFilterInputChange } from '@/types/components/common';
 import { IOrderFilter, IOrderResponse } from '@/types/pages/order';
 import Icon, { searchIcon } from '@/utils/icons';
-import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import OrderTableFilter from './OrderTableFilter';
 
 interface IProps {
@@ -11,7 +12,7 @@ interface IProps {
   filterState: IOrderFilter;
   handleFilterStateReset: () => void;
   handleFilterInputChange: THandleFilterInputChange;
-  setFilterState: Dispatch<SetStateAction<IOrderFilter>>;
+  setFilterState: React.Dispatch<React.SetStateAction<IOrderFilter>>;
 }
 
 const OrderTableToolbar: React.FC<IProps> = ({
@@ -21,14 +22,43 @@ const OrderTableToolbar: React.FC<IProps> = ({
   handleFilterInputChange,
   setFilterState,
 }) => {
+  // State for managing search input
   const [searchQuery, setSearchQuery] = useState<string>('');
-  const debouncedSearchQuery = useDebounce<string>(searchQuery, 500);
+  // Debounced search input to reduce the number of filter updates
+  const debouncedSearchQuery = useDebounce(searchQuery, 500);
 
+  // Sync debounced search query with the filter state
   useEffect(() => {
     handleFilterInputChange('search', debouncedSearchQuery);
   }, [debouncedSearchQuery]);
 
-  // Tabs data
+  // Clear the search input when the filter state's search value changes
+  useEffect(() => {
+    if (!filterState.search) setSearchQuery('');
+  }, [filterState.search]);
+
+  // Effect to manage date and status filtering logic
+  useEffect(() => {
+    setFilterState((prevState) => ({
+      ...prevState,
+      status: filterState.status.length ? filterState.status : ['All'],
+    }));
+
+    // Clear date when custom date is set
+    if (filterState.customDate) {
+      setFilterState((prevState) => ({
+        ...prevState,
+        date: '',
+      }));
+    }
+  }, [filterState.date, filterState.status, filterState.customDate]);
+
+  // Handles search input change
+  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(event.target.value);
+  };
+
+  // Tabs configuration data
   const tabs = [
     { id: 'All', title: 'All orders', count: data?.total },
     { id: 'Processing', title: 'Processing', count: data?.Processing },
@@ -39,30 +69,11 @@ const OrderTableToolbar: React.FC<IProps> = ({
     { id: 'Cancelled', title: 'Cancel', count: data?.Cancelled },
   ];
 
-  useEffect(() => {
-    setFilterState((state) => ({
-      ...state,
-      status: filterState.status.length ? filterState.status : ['All'],
-    }));
-
-    if (filterState.customDate) {
-      setFilterState((state) => ({
-        ...state,
-        date: '',
-      }));
-    }
-  }, [filterState.date, filterState.status, filterState.customDate]);
-
-  // Handle search input change
-  const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchQuery(event.target.value);
-  };
-
-  // Render TabButtons dynamically
+  // Render TabButtons dynamically based on the tabs configuration
   const renderTabButtons = () =>
     tabs.map((tab) => (
       <TabButton
-        key={tab.title}
+        key={tab.id}
         title={tab.title}
         count={tab.count}
         isActive={filterState.status.includes(tab.id)}

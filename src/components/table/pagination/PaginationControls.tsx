@@ -1,4 +1,3 @@
-// PaginationControls.tsx
 import { cn } from '@/lib/utils';
 import Icon, { leftArrowIcon, rightArrowIcon } from '@/utils/icons';
 import React from 'react';
@@ -32,11 +31,11 @@ const PaginationControls: React.FC<PaginationControlsProps> = ({
             className='w-3.5 h-3.5 font-light'
             aria-hidden='true'
           />
-          <span className=''>Previous</span>
+          <span>Previous</span>
         </>
       ) : (
         <>
-          <span className=''>Next</span>
+          <span>Next</span>
           <Icon
             icon={rightArrowIcon}
             className='w-3.5 h-3.5 font-light'

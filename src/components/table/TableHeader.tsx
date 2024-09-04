@@ -1,3 +1,4 @@
+// TableHeader.tsx
 import Checkbox from '@/components/atomic/Checkbox';
 import { cn } from '@/lib/utils';
 import { ITableHead } from '@/types/components/table';
@@ -17,24 +18,23 @@ interface IProps {
   numSelected?: number;
   rowCount?: number;
   handleSort: (orderBy: string, order: 'asc' | 'desc') => void;
-  handleOrder: (order: 'asc' | 'desc') => void;
   selectAllRow?: (selected: boolean) => void;
   headerData: ITableHead[];
 }
 
-function TableHeader({
+const TableHeader: React.FC<IProps> = ({
   order,
   orderBy,
   numSelected,
   rowCount,
   handleSort,
-  handleOrder,
   selectAllRow,
   headerData,
-}: IProps) {
+}) => {
   return (
     <thead className='bg-[#F9FAFB] border-y border-primaryBorder'>
       <tr className='text-left'>
+        {/* Checkbox for selecting all rows */}
         {selectAllRow && (
           <th
             scope='col'
@@ -50,6 +50,8 @@ function TableHeader({
             />
           </th>
         )}
+
+        {/* Table header columns with sorting functionality */}
         {headerData.map((item) => (
           <th
             key={item.id}
@@ -60,13 +62,14 @@ function TableHeader({
             )}
             onClick={() => {
               if (item.filter) {
-                handleOrder(order === 'asc' ? 'desc' : 'asc');
-                handleSort(item.id, order === 'asc' ? 'desc' : 'asc');
+                const newOrder = order === 'asc' ? 'desc' : 'asc';
+                handleSort(item.id, newOrder);
               }
             }}
           >
             <span className='flex items-center'>
               {item.label}
+              {/* Sorting icons displayed conditionally based on sort order */}
               {item.filter && (
                 <>
                   <Icon
@@ -79,7 +82,7 @@ function TableHeader({
                   <Icon
                     icon={downArrowIcon}
                     className={cn(
-                      'w-2 ',
+                      'w-2',
                       orderBy === item.id && order === 'desc' && 'text-primary'
                     )}
                   />
@@ -89,6 +92,7 @@ function TableHeader({
           </th>
         ))}
 
+        {/* Action column with a tooltip for adding a field */}
         <th scope='col' className='pr-3 md:pr-5 w-[70px]'>
           <TooltipProvider>
             <Tooltip>
@@ -105,6 +109,6 @@ function TableHeader({
       </tr>
     </thead>
   );
-}
+};
 
 export default TableHeader;

@@ -2,7 +2,6 @@ import { TABLE_ROW_PER_PAGE } from '@/utils/config';
 import { useState } from 'react';
 
 interface IProps {
-  // data: object[];
   pageSize?: number;
   defaultOrderBy?: string;
   defaultOrder?: 'asc' | 'desc';
@@ -18,7 +17,6 @@ interface IProps {
 
 const useTable = (props: IProps) => {
   const {
-    // data,
     pageSize = TABLE_ROW_PER_PAGE,
     defaultOrderBy = '',
     defaultOrder = 'desc',
@@ -36,72 +34,64 @@ const useTable = (props: IProps) => {
   const [order, setOrder] = useState<'asc' | 'desc'>(defaultOrder);
   const [page, setPage] = useState(defaultPage);
   const [rowsPerPage, setRowsPerPage] = useState(defaultRowsPerPage);
-  const [selected, setSelected] = useState(defaultSelected);
+  const [selected, setSelected] = useState<string[]>(defaultSelected);
   const [dense, setDense] = useState(false);
 
-  const handleSort = (_orderBy: string, _order: 'asc' | 'desc') => {
-    setOrderBy(_orderBy);
+  const handleSort = (newOrderBy: string, newOrder: 'asc' | 'desc') => {
+    setOrderBy(newOrderBy);
+    setOrder(newOrder);
     if (onSort) {
-      onSort(_orderBy, _order);
+      onSort(newOrderBy, newOrder);
     }
   };
 
-  const handleOrder = (_order: 'asc' | 'desc') => {
-    setOrder(_order);
+  const handleOrder = (newOrder: 'asc' | 'desc') => {
+    setOrder(newOrder);
+    if (onSort) {
+      onSort(orderBy, newOrder);
+    }
   };
 
-  const handleSelectRow = (_selectedId: string) => {
-    const selectedIndex = selected.indexOf(_selectedId);
+  const handleSelectRow = (rowId: string) => {
+    setSelected((prevSelected) => {
+      const isSelected = prevSelected.includes(rowId);
+      const newSelected = isSelected
+        ? prevSelected.filter((id) => id !== rowId)
+        : [...prevSelected, rowId];
+      if (onSelectRow) {
+        onSelectRow(newSelected);
+      }
+      return newSelected;
+    });
+  };
 
-    let newSelected: string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, _selectedId);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
+  const handleSelectAllRows = (selectAll: boolean, rowIds: string[]) => {
+    const newSelected = selectAll ? rowIds : [];
     setSelected(newSelected);
     if (onSelectRow) {
       onSelectRow(newSelected);
     }
   };
 
-  const handleSelectAllRow = (selectAll: boolean, _selectedIds: string[]) => {
-    if (selectAll) {
-      // Select all rows
-      setSelected(_selectedIds);
-    } else {
-      // Deselect all rows
-      setSelected([]);
-    }
-  };
-
-  const handleChangePage = (_page: number) => {
-    setPage(_page);
+  const handleChangePage = (newPage: number) => {
+    setPage(newPage);
     if (onChangePage) {
-      onChangePage(_page);
+      onChangePage(newPage);
     }
   };
 
-  const handleChangeRowsPerPage = (_rowsPerPage: number) => {
+  const handleChangeRowsPerPage = (newRowsPerPage: number) => {
+    setRowsPerPage(newRowsPerPage);
     handleChangePage(1);
-    setRowsPerPage(_rowsPerPage);
     if (onChangeRowsPerPage) {
-      onChangeRowsPerPage(_rowsPerPage);
+      onChangeRowsPerPage(newRowsPerPage);
     }
   };
 
-  const handleChangeDense = (_dense: boolean) => {
-    setDense(_dense);
+  const handleChangeDense = (isDense: boolean) => {
+    setDense(isDense);
     if (onChangeDense) {
-      onChangeDense(_dense);
+      onChangeDense(isDense);
     }
   };
 
@@ -115,7 +105,7 @@ const useTable = (props: IProps) => {
     handleSort,
     handleOrder,
     handleSelectRow,
-    handleSelectAllRow,
+    handleSelectAllRows,
     handleChangePage,
     handleChangeRowsPerPage,
     handleChangeDense,

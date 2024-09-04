@@ -9,12 +9,12 @@ interface IProps {
   disabled?: boolean;
 }
 
-const RowsPerPageSelector = ({
+const RowsPerPageSelector: React.FC<IProps> = ({
   totalRows,
   rowsPerPage,
   onRowsPerPageChange,
   disabled,
-}: IProps) => {
+}) => {
   const handleRowsPerPageChange = (selected: TSelectValue) => {
     if (onRowsPerPageChange && selected && !Array.isArray(selected)) {
       onRowsPerPageChange(Number(selected.value));
@@ -23,7 +23,6 @@ const RowsPerPageSelector = ({
 
   return (
     <div className='items-center hidden gap-2 md:flex'>
-      {/* row par page selector  */}
       <h6 className='text-sm whitespace-nowrap text-[#667085]'>
         Rows Per Page:
       </h6>

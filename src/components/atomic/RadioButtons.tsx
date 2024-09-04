@@ -70,21 +70,3 @@ function RadioButtons({
 }
 
 export default RadioButtons;
-
-// use example
-// <RadioButtons
-//     name="radio"
-//     inputlabel={t`Input Label`}
-//     checked={formData.radio}
-//     radios={[
-//         {
-//             label: "Radio Button 1",
-//             value: "radio button 1",
-//         },
-//         {
-//             label: "Radio Button 2",
-//             value: "radio button 2",
-//         },
-//     ]}
-//     onChange={handleInputChange}
-// />;

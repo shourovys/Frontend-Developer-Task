@@ -1,4 +1,3 @@
-// DisplayComponent.tsx
 import React from 'react';
 
 interface DisplayComponentProps {
@@ -15,8 +14,8 @@ const DisplayComponent: React.FC<DisplayComponentProps> = ({
   return (
     <div>
       <p className='text-sm text-[#667085]'>
-        Showing <span className='font-medium'>{to}</span> to{' '}
-        <span className='font-medium'>{from}</span> of{' '}
+        Showing <span className='font-medium'>{from}</span> to{' '}
+        <span className='font-medium'>{to}</span> of{' '}
         <span className='font-medium'>{totalRows}</span> results
       </p>
     </div>

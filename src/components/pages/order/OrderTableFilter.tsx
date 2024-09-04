@@ -1,3 +1,4 @@
+// OrderTableFilter.tsx
 import Button from '@/components/atomic/Button';
 import Checkbox from '@/components/atomic/Checkbox';
 import RadioButtons from '@/components/atomic/RadioButtons';
@@ -40,50 +41,47 @@ const OrderTableFilter: React.FC<IProps> = ({
     paymentStatus: filterState.paymentStatus,
   });
 
+  // Synchronize filter state with component state when filterState changes
   useEffect(() => {
-    setFilter((state) => ({
-      ...state,
+    setFilter({
       date:
         !filterState.customDate && !filterState.date ? 'all' : filterState.date,
       status: filterState.status,
       paymentStatus: filterState.paymentStatus,
-    }));
+    });
   }, [filterState]);
 
-  const statusFilter = {
-    Processing: false,
-    Shipped: false,
-    Delivered: false,
-    Cancelled: false,
-  };
-  const paymentFilter = {
-    Paid: false,
-    Unpaid: false,
-    Refunded: false,
-    Inprogress: false,
-    Cancelled: false,
-  };
+  // Options for status and payment status filters
+  const statusOptions = ['Processing', 'Shipped', 'Delivered', 'Cancelled'];
+  const paymentOptions = [
+    'Paid',
+    'Unpaid',
+    'Refunded',
+    'Inprogress',
+    'Cancelled',
+  ];
 
+  // Handle filter input changes
   const handleFilterInputChange: THandleFilterInputChange = (name, value) => {
-    // apply will false in every filter state change
-    setFilter((state) => ({ ...state, apply: false, [name]: value }));
+    setFilter((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Handle dropdown close
   const handleDropDownClose = () => setIsOpen(false);
 
-  // Apply filters action
+  // Apply selected filters to the main filter state
   const applyFilters = () => {
     if (filter.date) {
-      setFilterState((state) => ({
-        ...state,
+      setFilterState((prevState) => ({
+        ...prevState,
         date: filter.date,
         customDate: '',
         status: filter.status.filter((item) => item !== 'All'),
         paymentStatus: filter.paymentStatus,
       }));
     } else {
-      setFilterState((state) => ({
-        ...state,
+      setFilterState((prevState) => ({
+        ...prevState,
         date: filter.date,
         status: filter.status.filter((item) => item !== 'All'),
         paymentStatus: filter.paymentStatus,
@@ -93,6 +91,7 @@ const OrderTableFilter: React.FC<IProps> = ({
     handleDropDownClose();
   };
 
+  // Reset filter state to the initial values
   const handleReset = () => {
     handleFilterStateReset();
     handleDropDownClose();
@@ -104,7 +103,7 @@ const OrderTableFilter: React.FC<IProps> = ({
         onClick={() => setIsOpen(true)}
         className='focus:outline-none'
       >
-        <span className='flex items-center text-[#05060F99] border border-primaryBorder py-2 px-3 rounded-md transition-colors hover:bg-slate-50 '>
+        <span className='flex items-center text-[#05060F99] border border-primaryBorder py-2 px-3 rounded-md transition-colors hover:bg-slate-50'>
           <Icon
             icon={filterIcon}
             className='w-3.5 h-3.5 mr-1.5'
@@ -154,18 +153,18 @@ const OrderTableFilter: React.FC<IProps> = ({
             <AccordionItem value='Status'>
               <AccordionTrigger>Status</AccordionTrigger>
               <AccordionContent className='space-y-3'>
-                {Object.keys(statusFilter).map((status) => (
+                {statusOptions.map((status) => (
                   <Checkbox
                     key={status}
                     label={status}
                     value={status}
                     checked={filter.status.includes(status)}
-                    onChange={(value) =>
+                    onChange={(isChecked) =>
                       handleFilterInputChange(
                         'status',
-                        filter.status.includes(status) && !value
-                          ? filter.status.filter((item) => item !== status)
-                          : [...filter.status, status]
+                        isChecked
+                          ? [...filter.status, status]
+                          : filter.status.filter((item) => item !== status)
                       )
                     }
                   />
@@ -177,20 +176,20 @@ const OrderTableFilter: React.FC<IProps> = ({
             <AccordionItem value='Payment Status'>
               <AccordionTrigger>Payment Status</AccordionTrigger>
               <AccordionContent className='space-y-3'>
-                {Object.keys(paymentFilter).map((payment) => (
+                {paymentOptions.map((payment) => (
                   <Checkbox
-                    key={`payment-${payment}`}
+                    key={payment}
                     label={payment}
                     value={payment}
                     checked={filter.paymentStatus.includes(payment)}
-                    onChange={(value) =>
+                    onChange={(isChecked) =>
                       handleFilterInputChange(
                         'paymentStatus',
-                        filter.paymentStatus.includes(payment) && !value
-                          ? filter.paymentStatus.filter(
+                        isChecked
+                          ? [...filter.paymentStatus, payment]
+                          : filter.paymentStatus.filter(
                               (item) => item !== payment
                             )
-                          : [...filter.paymentStatus, payment]
                       )
                     }
                   />

@@ -1,3 +1,4 @@
+// OrderTableRow.tsx
 import Checkbox from '@/components/atomic/Checkbox';
 import TableData from '@/components/table/TableData';
 import TableDataAction from '@/components/table/TableDataAction';
@@ -9,16 +10,20 @@ import { format } from 'date-fns';
 import Image from 'next/image';
 import { useState } from 'react';
 
-type IProps = {
+interface IProps {
   row: IOrder;
   selected: string[];
-  handleSelectRow: (_selectedId: string) => void;
-};
+  handleSelectRow: (selectedId: string) => void;
+}
 
-function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
+const OrderTableRow: React.FC<IProps> = ({
+  row,
+  selected,
+  handleSelectRow,
+}) => {
   const [copiedField, setCopiedField] = useState<string | null>(null);
 
-  // Copy text to clipboard
+  // Copy text to clipboard with feedback for the copied field
   const handleCopyToClipboard = (text: string, field: string) => {
     navigator.clipboard.writeText(text).then(() => {
       setCopiedField(field);
@@ -26,26 +31,27 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
     });
   };
 
-  // Determine styles for payment status
+  // Determine styles for payment status based on predefined mappings
   const getPaymentStatusStyles = (status: string) => {
     const styles: Record<string, string> = {
       Paid: 'text-[#0D894F] bg-[#E5F5EB]',
       Cancelled: 'text-[#FC0000] bg-[#F9F0F0]',
-      'In Progress': 'text-[#DF9934] bg-[#FFF6EA]',
+      Unpaid: 'text-[#FC0000] bg-[#F9F0F0]',
+      Inprogress: 'text-[#DF9934] bg-[#FFF6EA]',
       Refunded: 'text-[#4698AF] bg-[#E2F9FF]',
     };
     return styles[status] || '';
   };
 
-  // Determine styles for order status
+  // Determine styles for order status based on predefined mappings
   const getOrderStatusStyles = (status: string) => {
     const styles: Record<string, string> = {
       Processing: 'bg-[#E5EFFF]',
-    } as const;
+    };
     return styles[status] || 'bg-[#F3F8FC]';
   };
 
-  // Format the date and time
+  // Format the date string into a readable date and time format
   const formatDateTime = (dateString: string) => {
     const date = new Date(dateString);
     return format(date, "PP 'at' p");
@@ -53,6 +59,7 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
 
   return (
     <TableRow key={row._id.$oid} selected={selected.includes(row._id.$oid)}>
+      {/* Checkbox for row selection */}
       <TableDataAction selected={selected.includes(row._id.$oid)}>
         <Checkbox
           value={`select-row-${row._id.$oid}`}
@@ -60,6 +67,8 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
           onChange={() => handleSelectRow(row._id.$oid.toString())}
         />
       </TableDataAction>
+
+      {/* Order ID with copy functionality */}
       <TableData>
         {row._id.$oid}
         <Icon
@@ -68,7 +77,11 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
           onClick={() => handleCopyToClipboard(row._id.$oid, 'id')}
         />
       </TableData>
+
+      {/* Order creation date */}
       <TableData>{formatDateTime(row.createdAt.$date)}</TableData>
+
+      {/* Shipping information */}
       <TableData>
         <p>{row.shipping.name}</p>
         <div className='flex items-center gap-2'>
@@ -83,10 +96,16 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
           {row.shipping.address}, {row.shipping.city}
         </p>
       </TableData>
+
+      {/* Total order amount */}
       <TableData>৳ {row.totalAmount.grandTotal}</TableData>
+
+      {/* Total quantity of items */}
       <TableData>
         {row.products.reduce((acc, product) => acc + product.quantity, 0)} items
       </TableData>
+
+      {/* Payment status with styled badge */}
       <TableData>
         <span
           className={cn(
@@ -97,16 +116,20 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
           {row.payment.status}
         </span>
       </TableData>
+
+      {/* Delivery partner */}
       <TableData>
         <Image
           src='/pathao.png'
-          alt=''
+          alt='Pathao Logo'
           height={32}
           width={32}
           className='bg-[#F7F7F7] rounded-full mb-1 p-0.5'
         />
         Pathao
       </TableData>
+
+      {/* Order status with styled badge */}
       <TableData>
         <span
           className={cn(
@@ -117,6 +140,8 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
           {row.status}
         </span>
       </TableData>
+
+      {/* Action buttons */}
       <TableData className='pr-3 md:pr-5'>
         <div className='flex justify-end'>
           <div className='flex items-center justify-center w-9 aspect-square text-base bg-primaryLight text-primary rounded-full'>
@@ -126,6 +151,6 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
       </TableData>
     </TableRow>
   );
-}
+};
 
 export default OrderTableRow;

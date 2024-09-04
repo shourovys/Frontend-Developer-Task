@@ -17,14 +17,15 @@ function Button({
   type = 'button',
   size = 'default',
   color = 'primary',
-  isLoading,
-  disabled,
+  isLoading = false,
+  disabled = false,
   link,
   onClick,
   className,
   children,
   style,
 }: IProps) {
+  // Define button styles
   const buttonClassNames = cn(
     'inline-flex gap-1.5 items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50',
     size === 'default' &&
@@ -32,22 +33,20 @@ function Button({
     size === 'sm' && 'h-7 md:h-9 rounded-md px-1.5 md:px-3',
     size === 'lg' && 'h-9 md:h-11 rounded-md px-4 md:px-8',
     size === 'icon' && 'h-8 md:h-10 w-8 md:w-10',
-
     color === 'primary' &&
       `border border-primary bg-primary text-btnPrimaryText hover:bg-primary/90 ${
         !disabled && 'hover:bg-btnPrimaryText hover:text-primary'
       }`,
-
     color === 'outline' &&
       `border border-buttonBorder bg-btnOutlineBg text-btnOutlineText ${
         !disabled && 'hover:bg-btnOutlineText hover:text-btnOutlineBg'
       }`,
-
     isLoading ? 'cursor-wait' : disabled ? 'cursor-auto' : 'cursor-pointer',
     disabled ? 'opacity-50 cursor-auto' : 'hover:shadow-all-side',
     className
   );
 
+  // Render button or link
   if (disabled) {
     return (
       <button className={buttonClassNames} type={type} style={style}>
@@ -63,6 +62,7 @@ function Button({
       </Link>
     );
   }
+
   return (
     <button
       className={buttonClassNames}

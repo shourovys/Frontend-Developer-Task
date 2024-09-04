@@ -1,3 +1,4 @@
+// ActionButtons.tsx
 import { cn } from '@/lib/utils';
 import { IActionsButton } from '@/types/components/actionButtons';
 import Icon from '@/utils/icons';
@@ -6,13 +7,14 @@ import Button from '../atomic/Button';
 interface IProps {
   actionButtons: IActionsButton[];
 }
+
 function ActionButtons({ actionButtons }: IProps) {
   return (
-    <div className='flex gap-x-2 md:gap-x-2.5 '>
+    <div className='flex gap-x-2 md:gap-x-2.5'>
       {actionButtons.map((button) => (
         <Button
-          color={button.color || 'primary'}
           key={button.text}
+          color={button.color || 'primary'}
           size={button.size}
           link={button.link}
           onClick={button.onClick}

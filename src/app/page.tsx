@@ -10,21 +10,19 @@ import Table from '@/components/table/Table';
 import TableEmptyRows from '@/components/table/TableEmptyRows';
 import TableHeader from '@/components/table/TableHeader';
 import TableNoData from '@/components/table/TableNoData';
+import { useFilter } from '@/hooks/useFilter';
+import { useApiQueryParams } from '@/hooks/useOrderApiQueryPparams';
 import useTable, { emptyRows } from '@/hooks/useTable';
 import { IActionsButton } from '@/types/components/actionButtons';
-import { THandleFilterInputChange } from '@/types/components/common';
 import { ITableHead } from '@/types/components/table';
-import {
-  IOrderApiQueryParams,
-  IOrderFilter,
-  IOrderResponse,
-} from '@/types/pages/order';
+import { IOrderFilter, IOrderResponse } from '@/types/pages/order';
 import { createIcon, exportIcon } from '@/utils/icons';
 import QueryString from 'qs';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import useSWR from 'swr';
 
 export default function Home() {
+  // Custom hook managing table state and handlers
   const {
     page,
     rowsPerPage,
@@ -33,12 +31,12 @@ export default function Home() {
     selected,
     handleChangePage,
     handleSort,
-    handleOrder,
     handleChangeRowsPerPage,
     handleSelectRow,
-    handleSelectAllRow,
+    handleSelectAllRows,
   } = useTable({ defaultOrderBy: 'date' });
 
+  // Define table head columns with filtering options
   const TABLE_HEAD: ITableHead[] = [
     { id: '$oid', label: 'Order Id', filter: true },
     { id: 'date', label: 'Creating date', filter: true },
@@ -50,7 +48,7 @@ export default function Home() {
     { id: 'Status', label: 'Status', filter: true },
   ];
 
-  // apply property use for apply filter. filter will apply when apply is true
+  // Initial state for filters
   const initialFilterState: IOrderFilter = {
     id: '',
     search: '',
@@ -59,53 +57,36 @@ export default function Home() {
     date: '',
     customDate: '',
   };
-  // state to store the filter values
-  const [filterState, setFilterState] = useState(initialFilterState);
 
-  const handleFilterInputChange: THandleFilterInputChange = (name, value) => {
-    // apply will false in every filter state change
-    setFilterState((state) => ({ ...state, apply: false, [name]: value }));
-  };
+  // State and handlers for managing filters using a custom hook
+  const {
+    filterState,
+    setFilterState,
+    handleFilterInputChange,
+    handleFilterStateReset,
+  } = useFilter(initialFilterState);
 
-  // handle the reset button for the filters
-  const handleFilterStateReset = () => {
-    // on filter apply filterStateRef update to initial filter state
-    setFilterState(initialFilterState);
-  };
-
-  // create the query object for the API call
-  const apiQueryParams: IOrderApiQueryParams = {
-    offset: (page - 1) * rowsPerPage,
-    limit: rowsPerPage,
-    sort_by: orderBy,
+  // Create query params for the API using a custom hook
+  const apiQueryParams = useApiQueryParams({
+    page,
+    rowsPerPage,
+    orderBy,
     order,
-    ...(filterState.id && {
-      id: filterState.id,
-    }),
-    ...(filterState.search && {
-      search: filterState.search,
-    }),
-    ...(filterState.status.length && {
-      status: filterState.status,
-    }),
-    ...(filterState.paymentStatus.length && {
-      paymentStatus: filterState.paymentStatus,
-    }),
-    ...(filterState.date && {
-      date: filterState.date,
-    }),
-    ...(filterState.customDate && {
-      customDate: filterState.customDate,
-    }),
-  };
+    filterState,
+  });
 
-  const apiQueryString = QueryString.stringify(apiQueryParams);
-
-  const { isLoading, data, mutate } = useSWR<IOrderResponse>(
-    `/orders/?${apiQueryString}`,
+  // Fetch data using SWR with the generated query string
+  const { isLoading, data, mutate, error } = useSWR<IOrderResponse>(
+    `/orders/?${QueryString.stringify(apiQueryParams)}`,
     fetcher
   );
 
+  // on filter state change restart pagination
+  useEffect(() => {
+    handleChangePage(1);
+  }, [filterState]);
+
+  // Define actions for breadcrumb buttons
   const breadcrumbsActionsButtons: IActionsButton[] = [
     {
       color: 'outline',
@@ -122,16 +103,20 @@ export default function Home() {
     },
   ];
 
-  const isNotFound = !data?.count && !isLoading;
+  // Check if no data is found
+  const isNotFound = !data?.count && !isLoading && !error;
 
   return (
     <div>
+      {/* Breadcrumbs with actions */}
       <Breadcrumbs
         pageTitle='Orders'
         breadcrumbsActionsButtons={breadcrumbsActionsButtons}
       />
 
+      {/* Main Table Container */}
       <div className='bg-white rounded-xl border border-primaryBorder shadow-table'>
+        {/* Order Table Info and Toolbar */}
         <OrderTableInfo
           data={data}
           filterState={filterState}
@@ -144,47 +129,49 @@ export default function Home() {
           handleFilterInputChange={handleFilterInputChange}
           setFilterState={setFilterState}
         />
+
+        {/* Table and Table Headers */}
         <Table>
           <TableHeader
             order={order}
             orderBy={orderBy}
             numSelected={selected.length}
-            rowCount={data?.orders.length}
+            rowCount={data?.orders.length || 0}
             handleSort={handleSort}
-            handleOrder={handleOrder}
-            selectAllRow={(isAllSelected: boolean) => {
+            selectAllRow={(isAllSelected) => {
               if (data) {
-                handleSelectAllRow(
+                handleSelectAllRows(
                   isAllSelected,
-                  data?.orders.map((result) => result._id.$oid)
+                  data.orders.map((order) => order._id.$oid)
                 );
               }
             }}
             headerData={TABLE_HEAD}
           />
+
+          {/* Table Body and Rows */}
           <tbody className='divide-y divide-border-primaryBorder'>
-            {!isLoading && (
-              <>
-                {data?.orders.map((row) => (
-                  <OrderTableRow
-                    key={row._id.$oid}
-                    row={row}
-                    selected={selected}
-                    handleSelectRow={handleSelectRow}
-                  />
-                ))}
-                <TableEmptyRows
-                  emptyRows={
-                    data ? emptyRows(page, rowsPerPage, data?.count) : 0
-                  }
+            {!isLoading &&
+              data?.orders.map((row) => (
+                <OrderTableRow
+                  key={row._id.$oid}
+                  row={row}
+                  selected={selected}
+                  handleSelectRow={handleSelectRow}
                 />
-              </>
-            )}
+              ))}
+            <TableEmptyRows
+              emptyRows={data ? emptyRows(page, rowsPerPage, data.count) : 0}
+            />
           </tbody>
         </Table>
+
+        {/* Loading and No Data States */}
         <TableBodyLoading isLoading={isLoading} tableRowPerPage={rowsPerPage} />
         <TableNoData isNotFound={isNotFound} />
       </div>
+
+      {/* Pagination Component */}
       <Pagination
         totalRows={data?.count || 0}
         currentPage={page}
