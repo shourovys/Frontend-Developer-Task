@@ -102,9 +102,9 @@ const OrderTableFilter: React.FC<IProps> = ({
     <DropdownMenu open={isOpen}>
       <DropdownMenuTrigger
         onClick={() => setIsOpen(true)}
-        className='flex items-center text-[#05060F99] border border-primaryBorder py-1.5 px-3 rounded-md transition-colors hover:bg-slate-50 focus:outline-none'
+        className='focus:outline-none'
       >
-        <span>
+        <span className='flex items-center text-[#05060F99] border border-primaryBorder py-2 px-3 rounded-md transition-colors hover:bg-slate-50 '>
           <Icon
             icon={filterIcon}
             className='w-3.5 h-3.5 mr-1.5'

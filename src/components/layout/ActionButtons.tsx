@@ -8,7 +8,7 @@ interface IProps {
 }
 function ActionButtons({ actionButtons }: IProps) {
   return (
-    <div className='flex gap-x-2.5 '>
+    <div className='flex gap-x-2 md:gap-x-2.5 '>
       {actionButtons.map((button) => (
         <Button
           color={button.color || 'primary'}
@@ -24,7 +24,7 @@ function ActionButtons({ actionButtons }: IProps) {
             {button.icon && (
               <Icon
                 icon={button.icon}
-                className={cn('h-4 w-4', button.iconClass)}
+                className={cn('h-3 md:h-4 w-3 md:w-4', button.iconClass)}
               />
             )}
             <span>{button.text}</span>

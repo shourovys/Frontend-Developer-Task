@@ -1,7 +1,8 @@
 import Checkbox from '@/components/atomic/Checkbox';
 import { cn } from '@/lib/utils';
 import { ITableHead } from '@/types/components/table';
-import Icon, { downArrowIcon, plusIcon, upArrowIcon } from '@/utils/icons';
+import Icon, { downArrowIcon, upArrowIcon } from '@/utils/icons';
+import { PlusIcon } from '@radix-ui/react-icons';
 import {
   Tooltip,
   TooltipArrow,
@@ -37,7 +38,7 @@ function TableHeader({
         {selectAllRow && (
           <th
             scope='col'
-            className='sticky left-0 w-1 pr-1.5 pl-5 bg-[#F9FAFB]'
+            className='sticky left-0 w-1 pr-1.5 pl-3 md:pl-5 bg-[#F9FAFB]'
           >
             <Checkbox
               value='select-all-row'
@@ -64,33 +65,35 @@ function TableHeader({
               }
             }}
           >
-            {item.label}
-            {item.filter && (
-              <>
-                <Icon
-                  icon={upArrowIcon}
-                  className={cn(
-                    'w-2 ml-1',
-                    orderBy === item.id && order === 'asc' && 'text-primary'
-                  )}
-                />
-                <Icon
-                  icon={downArrowIcon}
-                  className={cn(
-                    'w-2 ',
-                    orderBy === item.id && order === 'desc' && 'text-primary'
-                  )}
-                />
-              </>
-            )}
+            <span className='flex items-center'>
+              {item.label}
+              {item.filter && (
+                <>
+                  <Icon
+                    icon={upArrowIcon}
+                    className={cn(
+                      'w-2 ml-1',
+                      orderBy === item.id && order === 'asc' && 'text-primary'
+                    )}
+                  />
+                  <Icon
+                    icon={downArrowIcon}
+                    className={cn(
+                      'w-2 ',
+                      orderBy === item.id && order === 'desc' && 'text-primary'
+                    )}
+                  />
+                </>
+              )}
+            </span>
           </th>
         ))}
 
-        <th scope='col' className='pr-5 w-[70px]'>
+        <th scope='col' className='pr-3 md:pr-5 w-[70px]'>
           <TooltipProvider>
             <Tooltip>
               <TooltipTrigger>
-                <Icon icon={plusIcon} className='text-[#05060F99] ' />
+                <PlusIcon className='text-[#0E1521] h-4 w-4 mt-[5px]' />
               </TooltipTrigger>
               <TooltipContent>
                 <p>Add field</p>

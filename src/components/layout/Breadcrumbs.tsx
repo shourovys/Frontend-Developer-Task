@@ -12,9 +12,9 @@ export default function Breadcrumbs({
 }: IBreadcrumbsProps) {
   return (
     <section>
-      <div className='flex items-center justify-between max-w-full overflow-x-auto sm:flex-nowrap pt-6 pb-4 px-0 gap-y-1 gap-x-8'>
+      <div className='flex items-center justify-between max-w-full overflow-x-auto sm:flex-nowrap pt-3 md:pt-6 pb-3 md:pb-4 px-3 md:px-0 gap-y-1 gap-x-4'>
         <nav className='' aria-label={`Breadcrumb`}>
-          <h1 className='text-xl font-medium text-black capitalize md:text-[22px]'>
+          <h1 className='text-lg md:text-xl font-medium text-black capitalize md:text-[22px]'>
             {propsPageTitle}
           </h1>
         </nav>

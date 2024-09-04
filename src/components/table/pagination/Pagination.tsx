@@ -69,7 +69,7 @@ export default function Pagination({
       : totalRows;
 
   return (
-    <div className='flex items-center justify-between p-5 mb-5 pb-1 sm:px-6 text-sm font-medium'>
+    <div className='flex items-center justify-between p-3 md:p-5 mb-5 pb-1 sm:px-6 text-sm font-medium'>
       <div className='flex justify-between flex-1 sm:hidden'>
         <PaginationPrevNextControls
           onClick={handlePrevNextPaginate}

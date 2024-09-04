@@ -10,7 +10,7 @@ function TableDataAction({ selected, children }: IProps) {
   return (
     <td
       className={cn(
-        'custom_transition sticky pl-5 left-0 bg-white text-sm text-center text-gray-700 whitespace-nowrap group-hover:bg-[#F9FAFB]',
+        'custom_transition sticky pl-3 md:pl-5 left-0 bg-white text-sm text-center text-gray-700 whitespace-nowrap group-hover:bg-[#F9FAFB]',
         selected && 'bg-[#F9FAFB]'
       )}
     >

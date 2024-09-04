@@ -18,12 +18,10 @@ function TableBodyLoading({
     return null;
   }
   return (
-    <div className='overflow-hidden'>
+    <div className='overflow-hidden divide-y divide-white'>
       {createArray(tableRowPerPage).map((item) => (
         <div
-          className={cn(
-            'w-full border-t border-white animate-pulse bg-primaryBorder'
-          )}
+          className={cn('w-full animate-pulse bg-primaryBorder')}
           style={{ height: tableRowHeight }}
           key={item}
         />

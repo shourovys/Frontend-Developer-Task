@@ -163,7 +163,7 @@ export async function GET(req: NextRequest) {
       paymentStatus = [],
       date = '',
       customDate = '',
-    } = QueryString.parse(query.slice(1)) || {};
+    } = QueryString.parse(query) || {};
 
     // Convert query parameters to appropriate types
     const offsetNum = parseInt(offset as string, 10) || 0;

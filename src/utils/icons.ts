@@ -1,17 +1,21 @@
 import {
+  faAngleDown,
   faArrowDownLong,
   faArrowLeftLong,
   faArrowRightLong,
   faArrowRightToBracket,
   faArrowUpLong,
+  faBell,
   faCalendarAlt,
   faCheck,
   faChevronDown,
+  faCircleQuestion,
   faCopy,
   faEllipsis,
   faFilter,
   faMagnifyingGlass,
   faPlus,
+  faUser,
   faXmark,
   IconDefinition,
 } from '@fortawesome/free-solid-svg-icons';
@@ -30,6 +34,11 @@ export const threeDotsIcon = faEllipsis;
 export const plusIcon = faPlus;
 export const downChevronIcon = faChevronDown;
 export const closeIcon = faXmark;
+
+export const questionIcon = faCircleQuestion;
+export const downIcon = faAngleDown;
+export const bellIcon = faBell;
+export const userIcon = faUser;
 
 export const rightArrowIcon = faArrowRightLong; // right angle for access form
 export const leftArrowIcon = faArrowLeftLong; // for mobile dropdown menu

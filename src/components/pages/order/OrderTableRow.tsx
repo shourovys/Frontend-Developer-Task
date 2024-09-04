@@ -117,9 +117,11 @@ function OrderTableRow({ row, selected, handleSelectRow }: IProps) {
           {row.status}
         </span>
       </TableData>
-      <TableData className='pr-5'>
-        <div className='flex items-center justify-center w-9 aspect-square text-base bg-primaryLight text-primary rounded-full'>
-          <Icon icon={threeDotsIcon} />
+      <TableData className='pr-3 md:pr-5'>
+        <div className='flex justify-end'>
+          <div className='flex items-center justify-center w-9 aspect-square text-base bg-primaryLight text-primary rounded-full'>
+            <Icon icon={threeDotsIcon} />
+          </div>
         </div>
       </TableData>
     </TableRow>

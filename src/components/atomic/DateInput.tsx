@@ -40,7 +40,9 @@ function DateInput({
       onChange={(newValue) =>
         onChange && newValue ? onChange(name, newValue?.startDate) : null
       }
-      inputClassName={cn('form-control outline-none text-[#667085] -mt-.5')}
+      inputClassName={cn(
+        'form-control outline-none text-[#667085] -mt-.5 placeholder:text-sm md:placeholder:text-base'
+      )}
       toggleClassName='hidden'
       disabled={disabled}
       displayFormat={format ? format : 'DD-MM-YYYY'}

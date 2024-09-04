@@ -1,22 +1,8 @@
 import DateInput from '@/components/atomic/DateInput';
+import InfoCard from '@/components/common/InfoCard';
 import { THandleFilterInputChange } from '@/types/components/common';
 import { IOrderFilter, IOrderResponse } from '@/types/pages/order';
-import Icon, { calendarIcon } from '@/utils/icons';
-
-const InfoCard = ({
-  title,
-  value = 0,
-}: {
-  title: string;
-  value?: string | number;
-}) => {
-  return (
-    <div className='px-6 py-2'>
-      <p className='text-sm font-medium text-[#05060F99]'>{title}</p>
-      <p className='font-bold'>{value}</p>
-    </div>
-  );
-};
+import { CalendarIcon } from '@radix-ui/react-icons';
 
 interface IProps {
   data?: IOrderResponse;
@@ -30,10 +16,10 @@ const OrderTableInfo: React.FC<IProps> = ({
   handleFilterInputChange,
 }) => {
   return (
-    <div className='flex items-center gap-5 h-full w-full p-5 border-b border-primaryBorder'>
+    <div className='lg:flex items-center gap-5 h-full w-full p-3 md:p-5 border-b border-primaryBorder space-y-2 lg:space-y-0'>
       {/* date select */}
-      <div className='flex items-center justify-center gap-2 px-3 py-5 border border-primaryBorder rounded-lg text-[#667085]'>
-        <Icon icon={calendarIcon} />
+      <div className='flex items-center justify-center gap-2 px-2 md:px-3 py-1.5 sm:py-2 md:py-5 border border-primaryBorder rounded-lg text-[#667085]'>
+        <CalendarIcon className='w-5 h-5' />
         <DateInput
           name='customDate'
           placeholder='Select Date'

@@ -21,7 +21,7 @@ const PaginationPrevNextControls: React.FC<PaginationPrevNextControlsProps> = ({
     <button
       onClick={() => onClick(direction)}
       className={cn(
-        'relative inline-flex items-center px-2 py-1 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50',
+        'relative inline-flex items-center px-4 py-2 text-xs font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50',
         { 'opacity-50 cursor-not-allowed': disabled },
         {
           'bg-gray-100 hover:bg-gray-100':

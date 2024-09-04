@@ -1,5 +1,4 @@
 import { TABLE_ROW_PER_PAGE } from '@/utils/config';
-import { usePathname, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
 interface IProps {
@@ -33,12 +32,6 @@ const useTable = (props: IProps) => {
     onChangeDense,
   } = props;
 
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  // const updateRouteQuery = useUpdateRouteQuery();
-  // const updateRouteQueryWithReplace = useUpdateRouteQueryWithReplace();
-
   const [orderBy, setOrderBy] = useState(defaultOrderBy);
   const [order, setOrder] = useState<'asc' | 'desc'>(defaultOrder);
   const [page, setPage] = useState(defaultPage);
@@ -48,10 +41,6 @@ const useTable = (props: IProps) => {
 
   const handleSort = (_orderBy: string, _order: 'asc' | 'desc') => {
     setOrderBy(_orderBy);
-    // updateRouteQueryWithReplace({
-    //   query: { orderBy: _orderBy, order: _order },
-    //   pathName: pathname,
-    // });
     if (onSort) {
       onSort(_orderBy, _order);
     }

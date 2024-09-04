@@ -1,55 +1,10 @@
+import TabButton from '@/components/common/TabButton';
 import useDebounce from '@/hooks/useDebounce';
-import { cn } from '@/lib/utils';
 import { THandleFilterInputChange } from '@/types/components/common';
 import { IOrderFilter, IOrderResponse } from '@/types/pages/order';
 import Icon, { searchIcon } from '@/utils/icons';
 import React, { Dispatch, SetStateAction, useEffect, useState } from 'react';
 import OrderTableFilter from './OrderTableFilter';
-
-interface ITabButtonProps {
-  title: string;
-  count?: number;
-  isActive: boolean;
-  onClick: () => void;
-}
-
-const TabButton: React.FC<ITabButtonProps> = ({
-  title,
-  count,
-  isActive,
-  onClick,
-}) => {
-  return (
-    <button
-      onClick={onClick}
-      className={cn(
-        'flex items-center gap-1.5 p-1.5 border rounded-md transition-colors focus:outline-none focus:ring-1 focus:ring-primary',
-        isActive
-          ? 'border-primaryLight bg-primaryLight'
-          : 'border-primaryBorder hover:bg-slate-50'
-      )}
-    >
-      <p
-        className={cn(
-          'text-sm font-medium text-nowrap',
-          isActive ? 'text-primary' : 'text-[#05060F99]'
-        )}
-      >
-        {title}
-      </p>
-      <span
-        className={cn(
-          'font-bold text-xs rounded p-1',
-          isActive ? 'bg-primary text-white' : 'bg-primaryLight text-primary'
-        )}
-      >
-        {count || 0}
-      </span>
-    </button>
-  );
-};
-
-TabButton.displayName = 'TabButton';
 
 interface IProps {
   data?: IOrderResponse;
@@ -116,11 +71,13 @@ const OrderTableToolbar: React.FC<IProps> = ({
     ));
 
   return (
-    <div className='flex items-center justify-between w-full px-5 pt-4 pb-5 gap-6'>
+    <div className='flex flex-col md:flex-row items-start lg:items-center justify-between w-full px-3 md:px-5 pt-3 md:pt-4 pb-3 md:pb-5 gap-3 md:gap-6'>
       {/* Tab buttons */}
-      <div className='flex items-center gap-3'>{renderTabButtons()}</div>
+      <div className='flex items-center flex-wrap gap-1.5 md:gap-3'>
+        {renderTabButtons()}
+      </div>
 
-      <div className='flex items-center gap-3'>
+      <div className='flex items-center gap-3 min-w-96'>
         {/* Search input */}
         <div className='flex items-center border border-primaryBorder py-2 px-3 rounded-md flex-1 max-w-64 xl:min-w-72 2xl:min-w-80'>
           <Icon
