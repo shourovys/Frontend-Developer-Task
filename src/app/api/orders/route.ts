@@ -162,6 +162,7 @@ export async function GET(req: NextRequest) {
       limit = '10',
       sort_by = 'date',
       order = 'desc',
+      search = '',
       status = [],
       paymentStatus = [],
       date = '',
@@ -186,18 +187,30 @@ export async function GET(req: NextRequest) {
     const fileContent = await fs.readFile(filePath, 'utf-8');
     const orderData: IOrder[] = JSON.parse(fileContent);
 
-    // Filter, sort, and paginate orders
-    let filteredOrders = filterOrders(
-      orderData,
-      paymentStatusFilters,
-      date as string,
-      customDate as string
-    );
+    let filteredOrders: IOrder[] = [];
+    let filteredOrdersStatus: IOrder[] = [];
 
-    let filteredOrdersStatus = filterOrdersByStatus(
-      filteredOrders,
-      statusFilters
-    );
+    // Filter by search query based on order $oid
+    if (search) {
+      const filteredOrderBySearch = orderData.filter((order) =>
+        order._id.$oid.includes(search as string)
+      );
+      filteredOrders = filteredOrderBySearch;
+      filteredOrdersStatus = filteredOrderBySearch;
+    } else {
+      // Filter, sort, and paginate orders
+      filteredOrders = filterOrders(
+        orderData,
+        paymentStatusFilters,
+        date as string,
+        customDate as string
+      );
+
+      filteredOrdersStatus = filterOrdersByStatus(
+        filteredOrders,
+        statusFilters
+      );
+    }
 
     const paginatedOrders = sortAndPaginateOrders(
       filteredOrdersStatus,

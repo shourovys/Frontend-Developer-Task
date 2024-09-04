@@ -36,7 +36,7 @@ const RowsPerPageSelector = ({
         classNames={{
           menuButton: (arg) =>
             cn(
-              'flex items-center justify-center text-sm font-normal text-[#667085] border border-solid border-gray-300 h-[33px] w-[60px] rounded-md focus:text-gray-700',
+              'flex items-center justify-center text-sm font-normal text-[#667085] border border-solid border-gray-300 h-[33px] w-[60px] pl-4 pr-2 rounded-md focus:text-gray-700',
               !arg?.isDisabled &&
                 'focus:bg-white focus:border-primary focus:outline-none ',
               arg?.isDisabled && 'important_disable_bg'

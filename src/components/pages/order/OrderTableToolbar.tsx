@@ -133,7 +133,7 @@ const OrderTableToolbar: React.FC<IProps> = ({
             value={searchQuery}
             onChange={handleSearchChange}
             className='w-full ml-2 outline-none text-sm placeholder:text-[#05060F99]'
-            placeholder='Searching order...'
+            placeholder='Searching order by id...'
             aria-label='Search orders'
           />
         </div>
