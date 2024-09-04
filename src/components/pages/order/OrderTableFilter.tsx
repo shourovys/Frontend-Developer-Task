@@ -29,6 +29,7 @@ const OrderTableFilter: React.FC<IProps> = ({
   handleFilterStateReset,
   setFilterState,
 }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [filter, setFilter] = useState<{
     date: string;
     status: string[];
@@ -68,6 +69,8 @@ const OrderTableFilter: React.FC<IProps> = ({
     setFilter((state) => ({ ...state, apply: false, [name]: value }));
   };
 
+  const handleDropDownClose = () => setIsOpen(false);
+
   // Apply filters action
   const applyFilters = () => {
     if (filter.date) {
@@ -86,11 +89,21 @@ const OrderTableFilter: React.FC<IProps> = ({
         paymentStatus: filter.paymentStatus,
       }));
     }
+
+    handleDropDownClose();
+  };
+
+  const handleReset = () => {
+    handleFilterStateReset();
+    handleDropDownClose();
   };
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger className='flex items-center text-[#05060F99] border border-primaryBorder py-1.5 px-3 rounded-md transition-colors hover:bg-slate-50 focus:outline-none'>
+    <DropdownMenu open={isOpen}>
+      <DropdownMenuTrigger
+        onClick={() => setIsOpen(true)}
+        className='flex items-center text-[#05060F99] border border-primaryBorder py-1.5 px-3 rounded-md transition-colors hover:bg-slate-50 focus:outline-none'
+      >
         <span>
           <Icon
             icon={filterIcon}
@@ -106,15 +119,16 @@ const OrderTableFilter: React.FC<IProps> = ({
           <span className='font-medium text-[#333843]'>Filter your orders</span>
           <span
             className='text-sm text-[#05060F99] underline cursor-pointer'
-            onClick={handleFilterStateReset}
+            onClick={handleReset}
           >
             Reset
           </span>
-          <Icon
-            icon={closeIcon}
-            className='text-[#858D9D] absolute right-2.5 top-2.5 text-lg cursor-pointer p-1.5 hover:text-slate-900'
-          />
         </div>
+        <Icon
+          icon={closeIcon}
+          className='text-[#858D9D] absolute right-2.5 -top-1 text-lg cursor-pointer p-1.5 hover:text-slate-900'
+          onClick={handleDropDownClose}
+        />
         <DropdownMenuGroup className='space-y-3.5 max-h-[18rem] 2xl:max-h-[28rem] overflow-y-auto'>
           <Accordion type='single' collapsible>
             <AccordionItem value='Date Created'>
@@ -186,7 +200,9 @@ const OrderTableFilter: React.FC<IProps> = ({
           </Accordion>
         </DropdownMenuGroup>
         <DropdownMenuGroup className='flex justify-end gap-4 py-1'>
-          <Button color='outline'>Cancel</Button>
+          <Button color='outline' onClick={handleDropDownClose}>
+            Cancel
+          </Button>
           <Button onClick={applyFilters}>Apply Filter</Button>
         </DropdownMenuGroup>
       </DropdownMenuContent>
