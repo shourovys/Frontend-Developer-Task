@@ -25,7 +25,7 @@ const OrderTableToolbar: React.FC<IProps> = ({
   // State for managing search input
   const [searchQuery, setSearchQuery] = useState<string>('');
   // Debounced search input to reduce the number of filter updates
-  const debouncedSearchQuery = useDebounce(searchQuery, 500);
+  const debouncedSearchQuery = useDebounce(searchQuery, 200);
 
   // Sync debounced search query with the filter state
   useEffect(() => {

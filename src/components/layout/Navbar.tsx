@@ -1,9 +1,9 @@
-import Icon, {
-  bellIcon,
-  downIcon,
-  questionIcon,
-  userIcon,
-} from '@/utils/icons';
+import {
+  BellIcon,
+  ChevronDownIcon,
+  PersonIcon,
+  QuestionMarkCircledIcon,
+} from '@radix-ui/react-icons';
 
 const Navbar = () => {
   return (
@@ -11,17 +11,17 @@ const Navbar = () => {
       <div className='container mx-auto h-full flex items-center justify-end text-[#05060F99] gap-4 md:gap-6 px-3 md:px-0'>
         {/* Help Button */}
         <button className='flex items-center gap-1 text-sm font-medium'>
-          <Icon icon={questionIcon} className='text-xl' />
+          <QuestionMarkCircledIcon className='h-7 w-7' />
           <span>Qzcy Help</span>
-          <Icon icon={downIcon} className='w-3 text-xs' />
+          <ChevronDownIcon className='w-4' />
         </button>
 
         <span className='h-5 w-0.5 bg-[#05060F1A]' />
 
         {/* Notifications Button */}
         <button className='relative p-1'>
-          <Icon icon={bellIcon} className='text-xl' />
-          <span className='bg-red-500 text-white text-[10px] font-medium rounded-full absolute -top-1.5 -right-1 aspect-square w-[18px] h-[18px] flex items-center justify-center'>
+          <BellIcon className='h-6 w-6' />
+          <span className='bg-red-500 text-white text-[10px] font-medium rounded-full absolute -top-1 -right-0.5 aspect-square w-[18px] h-[18px] flex items-center justify-center'>
             21
           </span>
         </button>
@@ -30,11 +30,8 @@ const Navbar = () => {
 
         {/* User Icon */}
         <div className='flex items-center gap-1 cursor-pointer'>
-          <Icon
-            icon={userIcon}
-            className='text-lg p-1 border-2 border-primary rounded-full'
-          />
-          <Icon icon={downIcon} className='w-3 text-xs' />
+          <PersonIcon className='w-7 h-7 border-2 pt-0.5 border-primary rounded-full' />
+          <ChevronDownIcon className='w-4' />
         </div>
       </div>
     </header>
