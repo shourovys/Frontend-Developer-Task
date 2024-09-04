@@ -45,7 +45,7 @@ export default function Home() {
     { id: 'customer', label: 'Customer Info', filter: false },
     { id: 'grandTotal', label: 'Total', filter: true },
     { id: 'Quantity', label: 'Quantity', filter: false },
-    { id: 'Payment', label: 'Payment status', filter: true },
+    { id: 'Payment', label: 'Payment status', filter: false },
     { id: 'Delivery', label: 'Delivery method', filter: false },
     { id: 'Status', label: 'Status', filter: true },
   ];

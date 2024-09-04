@@ -128,7 +128,7 @@ const sortAndPaginateOrders = (
         return order === 'asc'
           ? dateA.getTime() - dateB.getTime()
           : dateB.getTime() - dateA.getTime();
-      case '_id':
+      case '$oid':
         return order === 'asc'
           ? a._id.$oid.localeCompare(b._id.$oid)
           : b._id.$oid.localeCompare(a._id.$oid);
@@ -136,11 +136,7 @@ const sortAndPaginateOrders = (
         return order === 'asc'
           ? a.totalAmount.grandTotal - b.totalAmount.grandTotal
           : b.totalAmount.grandTotal - a.totalAmount.grandTotal;
-      case 'paymentStatus':
-        return order === 'asc'
-          ? a.payment.status.localeCompare(b.payment.status)
-          : b.payment.status.localeCompare(a.payment.status);
-      case 'status':
+      case 'Status':
         return order === 'asc'
           ? a.status.localeCompare(b.status)
           : b.status.localeCompare(a.status);

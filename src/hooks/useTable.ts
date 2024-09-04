@@ -22,7 +22,7 @@ const useTable = (props: IProps) => {
     // data,
     pageSize = TABLE_ROW_PER_PAGE,
     defaultOrderBy = '',
-    defaultOrder = 'asc',
+    defaultOrder = 'desc',
     defaultPage = 1,
     defaultRowsPerPage = pageSize,
     defaultSelected = [],

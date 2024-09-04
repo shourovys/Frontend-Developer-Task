@@ -1,7 +1,7 @@
 import Checkbox from '@/components/atomic/Checkbox';
 import { cn } from '@/lib/utils';
 import { ITableHead } from '@/types/components/table';
-import Icon, { plusIcon } from '@/utils/icons';
+import Icon, { downArrowIcon, plusIcon, upArrowIcon } from '@/utils/icons';
 import {
   Tooltip,
   TooltipArrow,
@@ -64,26 +64,25 @@ function TableHeader({
               }
             }}
           >
-            {/* {item.filter && (
+            {item.label}
+            {item.filter && (
               <>
                 <Icon
                   icon={upArrowIcon}
                   className={cn(
-                    'w-2',
+                    'w-2 ml-1',
                     orderBy === item.id && order === 'asc' && 'text-primary'
                   )}
                 />
                 <Icon
                   icon={downArrowIcon}
                   className={cn(
-                    'w-2 mr-2',
+                    'w-2 ',
                     orderBy === item.id && order === 'desc' && 'text-primary'
                   )}
                 />
               </>
-            )} */}
-
-            {item.label}
+            )}
           </th>
         ))}
 
