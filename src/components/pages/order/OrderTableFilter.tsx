@@ -19,6 +19,12 @@ import { IOrderFilter } from '@/types/pages/order';
 import Icon, { closeIcon, filterIcon } from '@/utils/icons';
 import { Dispatch, SetStateAction, useEffect, useState } from 'react';
 
+interface IFilterState {
+  date: string;
+  status: string[];
+  paymentStatus: string[];
+}
+
 interface IProps {
   filterState: IOrderFilter;
   handleFilterStateReset: () => void;
@@ -31,15 +37,12 @@ const OrderTableFilter: React.FC<IProps> = ({
   setFilterState,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
-  const [filter, setFilter] = useState<{
-    date: string;
-    status: string[];
-    paymentStatus: string[];
-  }>({
+  const initFilter: IFilterState = {
     date: filterState.date ? '' : 'all',
     status: filterState.status,
     paymentStatus: filterState.paymentStatus,
-  });
+  };
+  const [filter, setFilter] = useState<IFilterState>(initFilter);
 
   // Synchronize filter state with component state when filterState changes
   useEffect(() => {
@@ -70,6 +73,10 @@ const OrderTableFilter: React.FC<IProps> = ({
 
   // Handle dropdown close
   const handleDropDownClose = () => setIsOpen(false);
+  const handleDropDownCloseWithReset = () => {
+    handleDropDownClose();
+    setFilter(initFilter);
+  };
 
   // Apply selected filters to the main filter state
   const applyFilters = () => {
@@ -128,7 +135,7 @@ const OrderTableFilter: React.FC<IProps> = ({
         <Icon
           icon={closeIcon}
           className='text-[#858D9D] absolute right-2.5 -top-1 text-lg cursor-pointer p-1.5 hover:text-slate-900'
-          onClick={handleDropDownClose}
+          onClick={handleDropDownCloseWithReset}
         />
         <DropdownMenuGroup className='space-y-3.5 max-h-[18rem] 2xl:max-h-[28rem] overflow-y-auto'>
           <Accordion type='single' collapsible>
@@ -201,7 +208,7 @@ const OrderTableFilter: React.FC<IProps> = ({
           </Accordion>
         </DropdownMenuGroup>
         <DropdownMenuGroup className='flex justify-end gap-4 py-1'>
-          <Button color='outline' onClick={handleDropDownClose}>
+          <Button color='outline' onClick={handleDropDownCloseWithReset}>
             Cancel
           </Button>
           <Button onClick={applyFilters}>Apply Filter</Button>
