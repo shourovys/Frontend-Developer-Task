@@ -8,7 +8,7 @@ import {
 const Navbar = () => {
   return (
     <header className='h-14 md:h-[67px] bg-white w-full'>
-      <div className='container mx-auto h-full flex items-center justify-end text-[#05060F99] gap-4 md:gap-6 px-3 md:px-0'>
+      <div className='container mx-auto h-full flex items-center justify-end text-[#05060F99] gap-4 md:gap-6 px-4 md:px-6 2xl:px-0'>
         {/* Help Button */}
         <button className='flex items-center gap-1 text-sm font-medium'>
           <QuestionMarkCircledIcon className='h-7 w-7' />
