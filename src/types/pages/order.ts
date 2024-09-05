@@ -104,7 +104,10 @@ export interface IOrderFilter {
   status: string[];
   paymentStatus: string[];
   date: string;
-  customDate: string;
+  customDate: {
+    startDate: string;
+    endDate: string;
+  };
 }
 
 export interface IApiQueryParamsBase {
@@ -118,4 +121,6 @@ export interface IOrderApiQueryParams extends IApiQueryParamsBase {
   status?: string[];
   paymentStatus?: string[];
   date?: string;
+  customStartDate?: string;
+  customEndDate?: string;
 }

@@ -20,7 +20,8 @@ const filterOrders = (
   orders: IOrder[],
   paymentStatus: string[],
   date: string,
-  customDate?: string
+  customStartDate?: string,
+  customEndDate?: string
 ): IOrder[] => {
   let filteredOrders = [...orders];
 
@@ -31,12 +32,15 @@ const filterOrders = (
 
   // Filter by date
   const now = new Date();
-  if (customDate) {
-    const startDate = new Date(customDate);
+
+  // Filter by custom date range if both customStartDate and customEndDate are provided
+  if (customStartDate && customEndDate) {
+    const startDate = new Date(customStartDate);
+    const endDate = new Date(customEndDate);
     filteredOrders = filteredOrders.filter(
       (order) =>
-        new Date(order.createdAt.$date).toDateString() ===
-        startDate.toDateString()
+        new Date(order.createdAt.$date) >= startDate &&
+        new Date(order.createdAt.$date) <= endDate
     );
   } else {
     switch (date) {
@@ -162,7 +166,8 @@ export async function GET(req: NextRequest) {
       status = [],
       paymentStatus = [],
       date = '',
-      customDate = '',
+      customStartDate = '',
+      customEndDate = '',
     } = QueryString.parse(query) || {};
 
     // Convert query parameters to appropriate types
@@ -199,7 +204,8 @@ export async function GET(req: NextRequest) {
         orderData,
         paymentStatusFilters,
         date as string,
-        customDate as string
+        customStartDate as string,
+        customEndDate as string
       );
 
       filteredOrdersStatus = filterOrdersByStatus(

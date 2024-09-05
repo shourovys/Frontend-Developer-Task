@@ -45,7 +45,9 @@ const OrderTableFilter: React.FC<IProps> = ({
   useEffect(() => {
     setFilter({
       date:
-        !filterState.customDate && !filterState.date ? 'all' : filterState.date,
+        !filterState.customDate.startDate && !filterState.date
+          ? 'all'
+          : filterState.date,
       status: filterState.status,
       paymentStatus: filterState.paymentStatus,
     });
@@ -75,7 +77,7 @@ const OrderTableFilter: React.FC<IProps> = ({
       setFilterState((prevState) => ({
         ...prevState,
         date: filter.date,
-        customDate: '',
+        customDate: { startDate: '', endDate: '' },
         status: filter.status.filter((item) => item !== 'All'),
         paymentStatus: filter.paymentStatus,
       }));

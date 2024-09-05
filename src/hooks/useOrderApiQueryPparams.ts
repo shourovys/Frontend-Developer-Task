@@ -28,7 +28,12 @@ export const useApiQueryParams = ({
       paymentStatus: filterState.paymentStatus,
     }),
     ...(filterState.date && { date: filterState.date }),
-    ...(filterState.customDate && { customDate: filterState.customDate }),
+    ...(filterState.customDate.startDate && {
+      customStartDate: filterState.customDate.startDate,
+    }),
+    ...(filterState.customDate.endDate && {
+      customEndDate: filterState.customDate.endDate,
+    }),
   };
 
   return queryParams;

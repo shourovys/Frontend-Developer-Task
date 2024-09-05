@@ -55,7 +55,7 @@ export default function Home() {
     status: ['All'],
     paymentStatus: [],
     date: '',
-    customDate: '',
+    customDate: { startDate: '', endDate: '' },
   };
 
   // State and handlers for managing filters using a custom hook
@@ -76,7 +76,7 @@ export default function Home() {
   });
 
   // Fetch data using SWR with the generated query string
-  const { isLoading, data, mutate, error } = useSWR<IOrderResponse>(
+  const { isLoading, data, error } = useSWR<IOrderResponse>(
     `/orders/?${QueryString.stringify(apiQueryParams)}`,
     fetcher
   );

@@ -45,13 +45,13 @@ const OrderTableToolbar: React.FC<IProps> = ({
     }));
 
     // Clear date when custom date is set
-    if (filterState.customDate) {
+    if (filterState.customDate.startDate && filterState.customDate.endDate) {
       setFilterState((prevState) => ({
         ...prevState,
         date: '',
       }));
     }
-  }, [filterState.date, filterState.status, filterState.customDate]);
+  }, [filterState.date, filterState.status, filterState.customDate.endDate]);
 
   // Handles search input change
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
