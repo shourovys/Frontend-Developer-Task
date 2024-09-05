@@ -1,5 +1,6 @@
 'use client';
 import { fetcher } from '@/api/swrConfig';
+import { orderUrls } from '@/api/urls';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import TableBodyLoading from '@/components/loading/TableBodyLoading';
 import OrderTableInfo from '@/components/pages/order/OrderTableInfo';
@@ -16,10 +17,11 @@ import useTable, { emptyRows } from '@/hooks/useTable';
 import { IActionsButton } from '@/types/components/actionButtons';
 import { ITableHead } from '@/types/components/table';
 import { IOrderFilter, IOrderResponse } from '@/types/pages/order';
+import downloadCsv from '@/utils/downloadCsv';
 import { createIcon, exportIcon } from '@/utils/icons';
-import QueryString from 'qs';
 import { useEffect } from 'react';
 import useSWR from 'swr';
+import useSWRMutation from 'swr/mutation';
 
 export default function Home() {
   // Custom hook managing table state and handlers
@@ -67,7 +69,7 @@ export default function Home() {
   } = useFilter(initialFilterState);
 
   // Create query params for the API using a custom hook
-  const apiQueryParams = useApiQueryParams({
+  const apiQueryParamsString = useApiQueryParams({
     page,
     rowsPerPage,
     orderBy,
@@ -77,7 +79,7 @@ export default function Home() {
 
   // Fetch data using SWR with the generated query string
   const { isLoading, data, error } = useSWR<IOrderResponse>(
-    `/orders/?${QueryString.stringify(apiQueryParams)}`,
+    orderUrls.list(apiQueryParamsString),
     fetcher
   );
 
@@ -86,6 +88,14 @@ export default function Home() {
     handleChangePage(1);
   }, [filterState]);
 
+  // mutation for fetch csv data from server and call downloadCsc
+  const { trigger: csvDataTrigger, isMutating: csvDataLoading } =
+    useSWRMutation(orderUrls.export(apiQueryParamsString), fetcher, {
+      onSuccess: (csvData) => {
+        downloadCsv(csvData, 'orders');
+      },
+    });
+
   // Define actions for breadcrumb buttons
   const breadcrumbsActionsButtons: IActionsButton[] = [
     {
@@ -93,7 +103,8 @@ export default function Home() {
       icon: exportIcon,
       iconClass: '-rotate-90',
       text: 'Export',
-      onClick: () => {},
+      onClick: () => csvDataTrigger(),
+      isLoading: csvDataLoading,
     },
     {
       color: 'primary',

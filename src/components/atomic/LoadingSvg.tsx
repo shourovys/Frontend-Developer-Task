@@ -13,8 +13,8 @@ function LoadingSvg({ size = 'default', color }: IProps) {
         size === 'sm' && 'w-3.5 h-3.5',
         size === 'default' && 'w-4 h-4',
         size === 'lg' && 'w-4 h-4',
-        color === 'primary' && 'text-btnPrimaryText',
-        'animate-spin-fast'
+        color === 'primary' && 'text-primary',
+        'animate-spin'
       )}
       xmlns='http://www.w3.org/2000/svg'
       fill='none'

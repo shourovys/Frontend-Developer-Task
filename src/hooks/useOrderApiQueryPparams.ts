@@ -1,5 +1,6 @@
 // hooks/useApiQueryParams.ts
 import { IOrderApiQueryParams, IOrderFilter } from '@/types/pages/order';
+import QueryString from 'qs';
 
 // Hook to create query parameters for the API call
 export const useApiQueryParams = ({
@@ -14,7 +15,7 @@ export const useApiQueryParams = ({
   orderBy: string;
   order: 'asc' | 'desc';
   filterState: IOrderFilter;
-}): IOrderApiQueryParams => {
+}): string => {
   // Construct query parameters based on the table state and filter state
   const queryParams: IOrderApiQueryParams = {
     offset: (page - 1) * rowsPerPage,
@@ -36,5 +37,5 @@ export const useApiQueryParams = ({
     }),
   };
 
-  return queryParams;
+  return QueryString.stringify(queryParams);
 };
