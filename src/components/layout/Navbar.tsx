@@ -16,7 +16,7 @@ const Navbar = () => {
           <ChevronDownIcon className='w-4' />
         </button>
 
-        <span className='h-5 w-0.5 bg-[#05060F1A]' />
+        <span className='h-5 w-px md:w-0.5 bg-[#05060F1A]' />
 
         {/* Notifications Button */}
         <button className='relative p-1'>
@@ -26,7 +26,7 @@ const Navbar = () => {
           </span>
         </button>
 
-        <span className='h-5 w-px bg-[#05060F1A]' />
+        <span className='h-5 w-px md:w-0.5 bg-[#05060F1A]' />
 
         {/* User Icon */}
         <div className='flex items-center gap-1 cursor-pointer'>
