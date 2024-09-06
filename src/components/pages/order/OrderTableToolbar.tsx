@@ -88,9 +88,9 @@ const OrderTableToolbar: React.FC<IProps> = ({
         {renderTabButtons()}
       </div>
 
-      <div className='flex items-center gap-2 sm:gap-3 flex-1 md:min-w-96 w-full'>
+      <div className='flex items-center gap-2 sm:gap-3 flex-1 md:max-w-96 w-full'>
         {/* Search input */}
-        <div className='flex items-center border border-primaryBorder py-2 px-3 rounded-md flex-1 w-full xl:min-w-72 2xl:min-w-80'>
+        <div className='flex items-center border border-primaryBorder py-2 px-3 rounded-md flex-1 w-full xl:max-w-72 2xl:max-w-80'>
           <Icon
             icon={searchIcon}
             className='w-3.5 h-3.5 text-[#05060F99]'

@@ -68,7 +68,7 @@ const TableHeader: React.FC<IProps> = ({
             }}
           >
             <span className='flex items-center'>
-              {item.label}
+              <span className='mt-0.5'>{item.label}</span>
               {/* Sorting icons displayed conditionally based on sort order */}
               {item.filter && (
                 <>
